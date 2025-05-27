@@ -1,0 +1,114 @@
+generator client {
+    provider = "prisma-client-js"
+    output   = "../generated/prisma-client"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model Todo {
+    id         String              @id @default(nanoid())
+    title      String
+    content    String?
+    dueDate    DateTime?
+    completed  Boolean             @default(false)
+    createdAt  DateTime            @default(now())
+    updatedAt  DateTime            @updatedAt
+    categories CategoriesOnTodos[]
+    author     User?               @relation(fields: [authorId], references: [id], onDelete: Cascade)
+    authorId   String?
+
+    @@index([authorId])
+    @@map("todo")
+}
+
+model Category {
+    id          String              @id @default(nanoid())
+    name        String
+    description String?
+    color       String? // Optional field to store color for UI representation
+    createdAt   DateTime            @default(now())
+    updatedAt   DateTime            @updatedAt
+    todos       CategoriesOnTodos[]
+    author      User?               @relation(fields: [authorId], references: [id], onDelete: Cascade)
+    authorId    String?
+
+    @@index([authorId])
+    @@map("category")
+}
+
+// Join table for many-to-many relationship between Todo and Category
+
+model CategoriesOnTodos {
+    todoId     String
+    categoryId String
+    todo       Todo     @relation(fields: [todoId], references: [id], onDelete: Cascade)
+    category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+    @@id([todoId, categoryId])
+    @@map("categories_on_todos")
+}
+
+model User {
+    id            String     @id
+    name          String
+    email         String
+    emailVerified Boolean
+    image         String?
+    createdAt     DateTime
+    updatedAt     DateTime
+    sessions      Session[]
+    accounts      Account[]
+    todos         Todo[]
+    categories    Category[]
+
+    @@unique([email])
+    @@map("user")
+}
+
+model Session {
+    id        String   @id
+    expiresAt DateTime
+    token     String
+    createdAt DateTime
+    updatedAt DateTime
+    ipAddress String?
+    userAgent String?
+    userId    String
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([token])
+    @@map("session")
+}
+
+model Account {
+    id                    String    @id
+    accountId             String
+    providerId            String
+    userId                String
+    user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+    accessToken           String?
+    refreshToken          String?
+    idToken               String?
+    accessTokenExpiresAt  DateTime?
+    refreshTokenExpiresAt DateTime?
+    scope                 String?
+    password              String?
+    createdAt             DateTime
+    updatedAt             DateTime
+
+    @@map("account")
+}
+
+model Verification {
+    id         String    @id
+    identifier String
+    value      String
+    expiresAt  DateTime
+    createdAt  DateTime?
+    updatedAt  DateTime?
+
+    @@map("verification")
+}

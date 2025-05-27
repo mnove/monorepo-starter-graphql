@@ -1,0 +1,65 @@
+name: "monorepo-starter-prod"
+
+services:
+  postgres:
+    container_name: postgres-prod
+    image: postgres:17.4 # Consider using a specific stable version like postgres:16 for production
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    volumes:
+      - pg_data_prod:/var/lib/postgresql/data # Use a named volume for production data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    # For a production setup, you might not expose the PostgreSQL port directly to the host
+    # if only the 'api' service needs to access it.
+    # ports:
+    #   - "5432:5432"
+  migrations:
+    container_name: migrations-prod
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    entrypoint: [] # Override the default entrypoint
+    command: sh -c "cd /app/apps/api && ./node_modules/.bin/prisma migrate deploy"
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?schema=public
+      - NODE_ENV=production
+    depends_on:
+      postgres:
+        condition: service_healthy
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 5
+    working_dir: /app/apps/api
+
+  api:
+    container_name: api-prod
+    build:
+      context: . # Build context is the root of the monorepo
+      dockerfile: apps/api/Dockerfile # Path to your API's Dockerfile
+    ports:
+      # Maps port 5001 from the container to the host.
+      # You can make the host port configurable via an environment variable if needed:
+      # - "${API_HOST_PORT:-5001}:5001"
+      - "5001:5001"
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?schema=public
+      - NODE_ENV=production
+      - PORT=5001 # Ensure your app inside the container listens on this port, matching EXPOSE in Dockerfile
+    depends_on:
+      postgres:
+        condition: service_healthy # Waits for postgres to be healthy before starting api
+      migrations:
+        condition: service_completed_successfully
+    restart: unless-stopped
+
+volumes:
+  pg_data_prod: # Defines the named volume for PostgreSQL production data
+    driver: local

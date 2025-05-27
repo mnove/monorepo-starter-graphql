@@ -1,0 +1,47 @@
+{
+  "name": "api",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "pnpm run clean && pnpm run generate && tsc -p tsconfig.json && tsc-alias -p tsconfig.json",
+    "clean": "rm -rf dist",
+    "dev": "nodemon --exec \"node -r esbuild-register ./src/index.ts\" -e .ts",
+    "lint": "tsc --noEmit && eslint \"src/**/*.ts*\" --max-warnings 0",
+    "start": "node -r esbuild-register ./src/index.ts",
+    "start:prod": "npx prisma migrate deploy && node dist/index.js",
+    "test": "jest --detectOpenHandles",
+    "generate": "prisma generate",
+    "db:migrate:deploy": "pnpm run prisma migrate deploy",
+    "db:migrate:dev": "prisma migrate dev",
+    "studio": "prisma studio"
+  },
+  "jest": {
+    "preset": "@repo/jest-presets/node"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.8.2",
+    "@repo/logger": "workspace:*",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.3",
+    "morgan": "^1.10.0",
+    "prisma": "^6.8.2"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@types/body-parser": "^1.19.5",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/morgan": "^1.9.9",
+    "@types/node": "^20.11.24",
+    "@types/supertest": "^6.0.2",
+    "esbuild": "^0.20.1",
+    "esbuild-register": "^3.5.0",
+    "eslint": "^9.27.0",
+    "nodemon": "^3.1.0",
+    "supertest": "^6.3.3",
+    "tsc-alias": "^1.8.16",
+    "typescript": "5.5.4"
+  }
+}
