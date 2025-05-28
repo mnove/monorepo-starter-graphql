@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "prebuild": "pnpm run codegen:graphql",
     "build": "pnpm run clean && pnpm run generate && pnpm run copy-files && tsc -p tsconfig.json && tsc-alias -p tsconfig.json",
     "clean": "rm -rf dist",
     "dev": "NODE_ENV=development nodemon --exec \"node -r esbuild-register ./src/index.ts\" -e .ts",
