@@ -16,6 +16,7 @@ COPY packages/logger/package.json ./packages/logger/
 COPY packages/config-typescript/package.json ./packages/config-typescript/
 COPY packages/jest-presets/package.json ./packages/jest-presets/
 COPY packages/config-eslint/package.json ./packages/config-eslint/
+COPY packages/validation-schema/package.json ./packages/validation-schema/
 
 # Install dependencies
 RUN pnpm install --frozen-lockfile
@@ -26,6 +27,7 @@ COPY packages/logger/ ./packages/logger/
 COPY packages/config-typescript/ ./packages/config-typescript/
 COPY packages/jest-presets/ ./packages/jest-presets/
 COPY packages/config-eslint/ ./packages/config-eslint/
+COPY packages/validation-schema/ ./packages/validation-schema/
 
 # Generate Prisma client
 RUN cd apps/api && pnpm generate
@@ -49,6 +51,8 @@ RUN corepack enable && corepack prepare pnpm@10.10.0 --activate
 COPY --from=builder /app/package.json /app/pnpm-lock.yaml /app/pnpm-workspace.yaml ./
 COPY --from=builder /app/apps/api/package.json ./apps/api/
 COPY --from=builder /app/packages/logger/package.json ./packages/logger/
+COPY --from=builder /app/packages/validation-schema/package.json ./packages/validation-schema/
+COPY --from=builder /app/packages/config-typescript/package.json ./packages/config-typescript/
 
 # Install production dependencies only
 RUN pnpm install --frozen-lockfile --prod
@@ -56,10 +60,11 @@ RUN pnpm install --frozen-lockfile --prod
 # Copy built application from builder stage
 COPY --from=builder /app/apps/api/dist/ ./apps/api/dist/
 COPY --from=builder /app/packages/logger/dist/ ./packages/logger/dist/
+COPY --from=builder /app/packages/validation-schema/dist/ ./packages/validation-schema/dist/
 
 # Copy Prisma schema and migrations for production database migrations
 COPY --from=builder /app/apps/api/prisma/ ./apps/api/prisma/
-COPY --from=builder /app/apps/api/generated/ ./apps/api/generated/
+COPY --from=builder /app/apps/api/src/generated/ ./apps/api/generated/
 
 # Copy the startup script and make it executable
 COPY --from=builder /app/apps/api/start.sh ./apps/api/start.sh

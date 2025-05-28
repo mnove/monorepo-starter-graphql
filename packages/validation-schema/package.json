@@ -1,0 +1,38 @@
+{
+  "name": "@repo/validation-schema",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
+    "codegen:graphql": "graphql-codegen",
+    "type-check": "tsc --noEmit"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "zod": "3.24.4"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "^5.0.6",
+    "@graphql-codegen/typescript": "4.1.6",
+    "@repo/typescript-config": "workspace:*",
+    "@types/node": "^20.11.24",
+    "graphql": "16.11.0",
+    "graphql-codegen-typescript-validation-schema": "^0.17.1",
+    "graphql-scalars": "^1.24.2",
+    "tsup": "^8.4.0",
+    "typescript": "5.8.2"
+  }
+}
