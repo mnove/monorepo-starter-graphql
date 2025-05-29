@@ -1,0 +1,5 @@
+schema: "../api/src/api/graphql/typeDefs/**/*.graphql"
+generates:
+  ./introspection/introspection.json:
+    plugins:
+      - introspection

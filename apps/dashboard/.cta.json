@@ -1,0 +1,13 @@
+{
+  "framework": "react",
+  "projectName": "dashboard",
+  "typescript": true,
+  "tailwind": false,
+  "packageManager": "pnpm",
+  "toolchain": "none",
+  "mode": "file-router",
+  "git": true,
+  "variableValues": {},
+  "version": 1,
+  "existingAddOns": []
+}

@@ -1,0 +1,18 @@
+node_modules
+.DS_Store
+dist
+dist-ssr
+*.local
+
+
+
+
+#ignore all .env files
+.env*
+
+#exclude .env.example
+!.env.example
+
+introspection
+src/generated
+generated
