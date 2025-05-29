@@ -26,8 +26,10 @@ const USE_APOLLO_STUDIO =
 
 const app = fastify({ logger: true });
 
+console.log("Server configuration:", serverConfig);
+console.log("trusted origins", [...serverConfig.trustedOrigins]);
 app.register(fastifyCors, {
-  origin: serverConfig.trustedOrigins,
+  origin: [...serverConfig.trustedOrigins],
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
   credentials: true,
@@ -216,12 +218,13 @@ const start = async () => {
       },
       () => {
         console.log(
-          "graphql server is running on http://localhost:5001/graphql"
+          `graphql server is running on ${serverConfig.baseURL}${GRAPHQL_ENDPOINT}`
         );
       }
     );
 
     console.log("environment", process.env.NODE_ENV);
+    console.log("client URL", process.env.CLIENT_URL);
   } catch (err) {
     app.log.error(err);
     process.exit(1);
