@@ -76,6 +76,24 @@ app.route({
 
 // const resend = new Resend(process.env.RESEND_API_KEY);
 
+// healthcheck endpoint simple return "ok"
+
+app.route({
+  url: "/healthcheck",
+  method: "GET",
+  handler: async (req, reply) => {
+    try {
+      reply.send("ok");
+    } catch (error) {
+      app.log.error("Healthcheck Error:", error);
+      reply.status(500).send({
+        error: "Internal server error",
+        code: "HEALTHCHECK_ERROR",
+      });
+    }
+  },
+});
+
 app.route({
   url: "/test-email",
   method: "GET",
