@@ -37,13 +37,13 @@ declare module "@tanstack/react-router" {
 
 // Get correct URI based on the environment
 const reactAppAPIUrl =
-  import.meta.env.VITE_SERVER_URL || "http://localhost:5001/graphql";
+  import.meta.env.VITE_SERVER_URL || "http://localhost:5001";
 
 console.log("API URL:", reactAppAPIUrl);
 
 // https link (communicates with Server)
 const link = createHttpLink({
-  uri: reactAppAPIUrl,
+  uri: `${reactAppAPIUrl}/graphql`,
   credentials: "include", // to include https cookies with the JWT token
 });
 
