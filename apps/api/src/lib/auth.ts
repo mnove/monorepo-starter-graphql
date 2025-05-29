@@ -53,13 +53,20 @@ export const auth = betterAuth({
   },
 
   advanced: {
-    cookies: {
-      session_cookies: {
-        attributes: {
-          sameSite: "none",
-          secure: true, // Use secure cookies in production
-        },
-      },
+    defaultCookieAttributes: {
+      secure: true,
+      httpOnly: true,
+      sameSite: "none", // Allows CORS-based cookie sharing across subdomains
+      partitioned: true, // New browser standards will mandate this for foreign cookies
     },
+    // cookies: {
+    //   session_cookies: {
+    //     attributes: {
+    //       sameSite: "None",
+    //       secure: true, // Use secure cookies in production
+    //       httpOnly: true, // Prevent JavaScript access to cookies
+    //     },
+    //   },
+    // },
   },
 });
