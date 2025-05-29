@@ -51,4 +51,14 @@ export const auth = betterAuth({
     },
     errorURL: "/auth/error",
   },
+
+  advanced: {
+    cookies: {
+      session_cookies: {
+        attributes: {
+          sameSite: "none",
+        },
+      },
+    },
+  },
 });
