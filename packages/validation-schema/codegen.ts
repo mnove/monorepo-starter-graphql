@@ -2,7 +2,7 @@ import type { CodegenConfig } from "@graphql-codegen/cli";
 import { DateTimeResolver } from "graphql-scalars";
 
 const config: CodegenConfig = {
-  schema: "../../apps/api/src/api/graphql/typeDefs/**/*.graphql",
+  schema: "../../apps/api/src/api/graphql/typeDefs/**/*.ts",
   overwrite: true,
   generates: {
     "./src/generated/graphql.ts": {

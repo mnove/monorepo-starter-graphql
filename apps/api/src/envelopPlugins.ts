@@ -12,6 +12,9 @@ import { auth } from "./lib/auth";
 // Export the Context type from GraphQLServerContext
 export type Context = GraphQLServerContext;
 
+/**
+ * Creates an executable GraphQL schema using the provided type definitions and resolvers.
+ */
 const executableSchema = makeExecutableSchema({
   typeDefs,
   resolvers,

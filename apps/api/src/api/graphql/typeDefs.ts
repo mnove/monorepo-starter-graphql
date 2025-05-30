@@ -1,13 +1,20 @@
-import path from "path";
-import { loadFilesSync } from "@graphql-tools/load-files";
 import { mergeTypeDefs } from "@graphql-tools/merge";
-// import {} from "../../../../packages/graphql-schema/src/schema"
-const typesArray = loadFilesSync(
-  // path.join(__dirname, "./typeDefs/**/*.graphql"),
-  path.join(__dirname, "./typeDefs/**/*.graphql"),
-  {
-    extensions: ["graphql"],
-  }
-);
+import { categoryTypeDefs } from "./typeDefs/category";
+import { commonTypeDefs } from "./typeDefs/common";
+import { errorTypeDefs } from "./typeDefs/error";
+import { scalarsTypeDefs } from "./typeDefs/scalars";
+import { todosTypeDefs } from "./typeDefs/todo";
 
+// This file is used to merge all GraphQL type definitions into a single schema.
+const typesArray = [
+  categoryTypeDefs,
+  commonTypeDefs,
+  errorTypeDefs,
+  scalarsTypeDefs,
+  todosTypeDefs,
+];
+
+/**
+ * Merges all GraphQL type definitions into a single schema.
+ */
 export const typeDefs = mergeTypeDefs(typesArray);

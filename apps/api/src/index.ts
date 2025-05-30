@@ -114,7 +114,7 @@ app.route({
         "https://example.com/reset-password"
       );
       const response = await sendTemplateEmail({
-        to: "novelli3000@gmail.com",
+        to: "test@example.com",
         ...template,
       });
 
