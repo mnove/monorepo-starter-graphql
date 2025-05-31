@@ -1,8 +1,10 @@
 import { serverConfig } from "@/config/server-config";
 import prisma from "@/utils/prisma-client";
+import { emailTemplates } from "@repo/emails";
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-import { emailTemplates, sendTemplateEmail } from "./email";
+import { resend } from "./send";
+// import { emailTemplates, sendTemplateEmail } from "./email";
 
 export const auth = betterAuth({
   trustedOrigins: [...serverConfig.trustedOrigins],
@@ -23,7 +25,21 @@ export const auth = betterAuth({
       const resetUrl = `${serverConfig.clientUrl}/reset-password/${token}?callbackURL=/reset-password`;
       console.log("Reset password URL:", resetUrl, url);
 
-      // //TODO rate limit?
+      const emailContent = emailTemplates.resetPassword({
+        name: user.name || "",
+        resetPasswordUrl: resetUrl,
+        // companyName: "Your Company",
+      });
+
+      await resend.emails.send({
+        from: "Your App <onboarding@resend.dev>",
+        to: [user.email],
+        subject: "Reset your password",
+        text: emailContent.text, // Use the TXT version for plain text
+        html: emailContent.html, // Use the HTML version for rich content
+      });
+
+      // // //TODO rate limit?
       // const response = await sendEmail({
       //   from: "Acme <onboarding@resend.dev>",
       //   to: [user.email],
@@ -35,11 +51,11 @@ export const auth = betterAuth({
       //   }),
       // });
 
-      const template = emailTemplates.resetPassword(resetUrl);
-      await sendTemplateEmail({
-        to: user.email,
-        ...template,
-      });
+      // const template = emailTemplates.resetPassword(resetUrl);
+      // await sendTemplateEmail({
+      //   to: user.email,
+      //   ...template,
+      // });
     },
   },
   secret: process.env.BETTER_AUTH_SECRET,

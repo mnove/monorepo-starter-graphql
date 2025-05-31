@@ -15,9 +15,15 @@ import { auth } from "@/lib/auth";
 import { serverConfig } from "./config/server-config";
 import { GraphQLServerContext } from "./context";
 import { Resend } from "resend";
-import { emailTemplates, sendTemplateEmail } from "./lib/email";
+// import { emailTemplates, sendTemplateEmail } from "./lib/email";
 // import { ResetPassword, sendEmail } from "@repo/emails";
-// import { sendEmail, ResetPassword } from "@repo/emails";
+import {
+  emailTemplates,
+  renderEmailTemplate,
+  type TemplateVariables,
+} from "@repo/emails";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 const PORT = process.env.PORT || 5001;
 const GRAPHQL_ENDPOINT = process.env.GRAPHQL_ENDPOINT || "/graphql";
@@ -101,28 +107,19 @@ app.route({
   method: "GET",
   handler: async (req, reply) => {
     console.log("test-email");
-    // Test Prisma connection
     try {
-      // const { data, error } = await resend.emails.send({
-      //   from: "Acme <onboarding@resend.dev>",
-      //   to: ["delivered@resend.dev"],
-      //   subject: "hello world",
-      //   html: "<strong>it works!</strong>",
-      // });
-      // await sendEmailTest();
-      const template = emailTemplates.resetPassword(
-        "https://example.com/reset-password"
-      );
-      const response = await sendTemplateEmail({
-        to: "test@example.com",
-        ...template,
+      // Get both HTML and TXT templates with variables replaced
+      const emailContent = emailTemplates.verifyEmail({
+        name: "Marcello",
+        verificationUrl: "https://example.com/verify?token=abc123",
+        companyName: "Your Company",
       });
 
-      console.log("Email response:", response);
+      // Now you can pick which version you want to use
+      console.log("Email HTML:", emailContent.html.substring(0, 200));
+      console.log("Email TXT:", emailContent.text);
 
-      const result = "Email sent successfully";
-      // const result = data;
-
+      const result = "Email sent successfully with both HTML and TXT versions";
       reply.send(result);
     } catch (error) {
       app.log.error("Email error", error);

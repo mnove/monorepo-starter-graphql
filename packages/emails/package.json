@@ -1,0 +1,26 @@
+{
+  "name": "@repo/emails",
+  "private": true,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "build_production/**/*",
+    "dist/**/*"
+  ],
+  "scripts": {
+    "dev": "maizzle serve",
+    "build:maizzle": "maizzle build production",
+    "build:ts": "tsc",
+    "build": "npm run build:maizzle && npm run build:ts"
+  },
+  "dependencies": {
+    "@maizzle/framework": "5.0.1",
+    "tailwindcss-mso": "^2.0.2",
+    "tailwindcss-preset-email": "latest"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.0.0",
+    "@types/node": "^20.0.0"
+  }
+}

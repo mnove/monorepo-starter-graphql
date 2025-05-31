@@ -17,6 +17,7 @@ COPY packages/config-typescript/package.json ./packages/config-typescript/
 COPY packages/jest-presets/package.json ./packages/jest-presets/
 COPY packages/config-eslint/package.json ./packages/config-eslint/
 COPY packages/validation-schema/package.json ./packages/validation-schema/
+COPY packages/emails/package.json ./packages/emails/
 
 # Install dependencies
 RUN pnpm install --frozen-lockfile
@@ -28,6 +29,7 @@ COPY packages/config-typescript/ ./packages/config-typescript/
 COPY packages/jest-presets/ ./packages/jest-presets/
 COPY packages/config-eslint/ ./packages/config-eslint/
 COPY packages/validation-schema/ ./packages/validation-schema/
+COPY packages/emails/ ./packages/emails/
 
 # Generate Prisma client
 RUN cd apps/api && pnpm generate
@@ -53,14 +55,23 @@ COPY --from=builder /app/apps/api/package.json ./apps/api/
 COPY --from=builder /app/packages/logger/package.json ./packages/logger/
 COPY --from=builder /app/packages/validation-schema/package.json ./packages/validation-schema/
 COPY --from=builder /app/packages/config-typescript/package.json ./packages/config-typescript/
+COPY --from=builder /app/packages/emails/package.json ./packages/emails/
 
-# Install production dependencies only
-RUN pnpm install --frozen-lockfile --prod
+# Install production dependencies only and clean up in single layer
+RUN pnpm install --frozen-lockfile --prod && \
+    pnpm store prune && \
+    rm -rf ~/.pnpm-store && \
+    rm -rf /tmp/* && \
+    rm -rf /var/cache/apk/*
 
 # Copy built application from builder stage
 COPY --from=builder /app/apps/api/dist/ ./apps/api/dist/
 COPY --from=builder /app/packages/logger/dist/ ./packages/logger/dist/
 COPY --from=builder /app/packages/validation-schema/dist/ ./packages/validation-schema/dist/
+
+# Copy emails package built files (both TypeScript dist and Maizzle build_production)
+COPY --from=builder /app/packages/emails/dist/ ./packages/emails/dist/
+COPY --from=builder /app/packages/emails/build_production/ ./packages/emails/build_production/
 
 # Copy Prisma schema and migrations for production database migrations
 COPY --from=builder /app/apps/api/prisma/ ./apps/api/prisma/
