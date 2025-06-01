@@ -1,0 +1,93 @@
+# Production Dockerfile for API app
+# Uses multi-stage build with Turborepo pruning for optimal image size
+
+# ---- Base Stage ----
+FROM node:22-alpine AS base
+# Enable corepack for pnpm support
+RUN corepack enable
+# Install necessary packages for Prisma and node-gyp
+RUN apk add --no-cache libc6-compat openssl
+
+# ---- Pruning Stage ----
+FROM base AS pruner
+WORKDIR /app
+RUN npm install -g turbo
+COPY . .
+# Use turbo prune to create a subset of the monorepo for the api app
+RUN turbo prune --scope=api --docker
+
+# ---- Dependencies Stage ----
+FROM base AS installer
+WORKDIR /app
+
+# Copy pruned workspace
+COPY --from=pruner /app/out/json/ .
+COPY --from=pruner /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
+COPY --from=pruner /app/out/pnpm-workspace.yaml ./pnpm-workspace.yaml
+
+# Install dependencies
+RUN pnpm install --frozen-lockfile --prefer-offline 
+
+# ---- Builder Stage ----
+FROM base AS builder
+WORKDIR /app
+
+# Copy dependencies from installer stage
+COPY --from=installer /app/ .
+# Copy source code from pruner
+COPY --from=pruner /app/out/full/ .
+
+# Generate Prisma client first (needed for build)
+RUN cd apps/api && pnpm run generate
+
+# Build the application and its dependencies using turbo
+RUN pnpm turbo run build --filter=api...
+
+# ---- Runtime Stage ----
+FROM base AS runner
+WORKDIR /app
+
+# Set NODE_ENV to production
+ENV NODE_ENV=production
+
+# Copy package.json files for production dependency installation
+COPY --from=pruner /app/out/json/ .
+COPY --from=pruner /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
+COPY --from=pruner /app/out/pnpm-workspace.yaml ./pnpm-workspace.yaml
+
+# Install only production dependencies
+RUN pnpm install --frozen-lockfile --prod --prefer-offline
+
+# Copy built application from builder stage
+COPY --from=builder /app/apps/api/dist/ ./apps/api/dist/
+COPY --from=builder /app/packages/logger/dist/ ./packages/logger/dist/
+COPY --from=builder /app/packages/validation-schema/dist/ ./packages/validation-schema/dist/
+COPY --from=builder /app/packages/emails/dist/ ./packages/emails/dist/
+COPY --from=builder /app/packages/emails/build_production/ ./packages/emails/build_production/
+
+# Copy Prisma schema and migrations for production database migrations
+COPY --from=builder /app/apps/api/prisma/ ./apps/api/prisma/
+COPY --from=builder /app/apps/api/src/generated/ ./apps/api/generated/
+
+# Copy the startup script and make it executable
+COPY --from=builder /app/apps/api/start.sh ./apps/api/start.sh
+RUN chmod +x ./apps/api/start.sh
+
+# Create non-root user
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 nodejs && \
+    chown -R nodejs:nodejs /app
+USER nodejs
+
+# Set working directory to apps/api
+WORKDIR /app/apps/api
+
+# Expose port
+EXPOSE 5001
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD node -e "require('http').get('http://localhost:5001/healthcheck', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"
+
+# Start the application
+CMD ["./start.sh"]
