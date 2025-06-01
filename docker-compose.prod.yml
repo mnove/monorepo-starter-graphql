@@ -8,6 +8,8 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
+    ports:
+      - "5432:5432"
     volumes:
       - pg_data_prod:/var/lib/postgresql/data # Use a named volume for production data
     restart: unless-stopped
@@ -24,7 +26,7 @@ services:
     container_name: migrations-prod
     build:
       context: .
-      dockerfile: apps/api/Dockerfile.prod
+      dockerfile: Dockerfile.prod
     entrypoint: [] # Override the default entrypoint
     command: sh -c "cd /app/apps/api && ./node_modules/.bin/prisma migrate deploy"
     environment:
@@ -43,7 +45,7 @@ services:
     container_name: api-prod
     build:
       context: . # Build context is the root of the monorepo
-      dockerfile: apps/api/Dockerfile.prod # Path to your API's Dockerfile
+      dockerfile: Dockerfile.prod # Path to your API's Dockerfile
     ports:
       # Maps port 5001 from the container to the host.
       # You can make the host port configurable via an environment variable if needed:

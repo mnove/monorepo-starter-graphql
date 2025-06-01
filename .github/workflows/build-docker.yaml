@@ -8,7 +8,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Build Image
-        run: docker build -f ./apps/api/Dockerfile -t mnove/api-starter-boilerplate:latest .
+        run: docker build -f ./Dockerfile.prod -t mnove/api-starter-boilerplate:latest .
       - name: Push Image to Docker Hub
         run: |
           docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_SECRET }}

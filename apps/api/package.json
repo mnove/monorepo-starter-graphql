@@ -18,9 +18,6 @@
     "copy-files": "node copy-files.js",
     "codegen:graphql": "graphql-codegen --config codegen.ts"
   },
-  "jest": {
-    "preset": "@repo/jest-presets/node"
-  },
   "dependencies": {
     "@envelop/core": "^5.2.3",
     "@envelop/generic-auth": "^9.1.3",
@@ -44,7 +41,6 @@
     "graphql": "^16.11.0",
     "graphql-scalars": "^1.24.2",
     "graphql-yoga": "^5.13.4",
-    "mjml": "^4.15.3",
     "morgan": "^1.10.0",
     "prisma": "^6.8.2",
     "resend": "^4.5.1",

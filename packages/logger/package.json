@@ -28,13 +28,9 @@
     "check-types": "tsc --noEmit",
     "test": "jest"
   },
-  "jest": {
-    "preset": "@repo/jest-presets/node"
-  },
   "devDependencies": {
     "@jest/globals": "^29.7.0",
     "@repo/eslint-config": "workspace:*",
-    "@repo/jest-presets": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@types/node": "^22.15.3",
     "bunchee": "^6.4.0",

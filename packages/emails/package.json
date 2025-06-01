@@ -13,14 +13,12 @@
     "build:ts": "tsc",
     "build": "npm run build:maizzle && npm run build:ts"
   },
-  "dependencies": {
-    "@maizzle/framework": "5.0.1",
-    "tailwindcss-mso": "^2.0.2",
-    "tailwindcss-preset-email": "latest"
-  },
   "devDependencies": {
+    "@maizzle/framework": "5.0.1",
+    "@types/node": "^20.0.0",
     "tailwindcss": "^3.4.17",
-    "typescript": "^5.0.0",
-    "@types/node": "^20.0.0"
+    "tailwindcss-mso": "^2.0.2",
+    "tailwindcss-preset-email": "latest",
+    "typescript": "^5.0.0"
   }
 }

@@ -47,8 +47,6 @@ RUN pnpm turbo run build --filter=api...
 FROM base AS runner
 WORKDIR /app
 
-# Set NODE_ENV to production
-ENV NODE_ENV=production
 
 # Copy package.json files for production dependency installation
 COPY --from=pruner /app/out/json/ .
@@ -84,6 +82,9 @@ WORKDIR /app/apps/api
 
 # Expose port
 EXPOSE 5001
+
+# Set NODE_ENV to production
+ENV NODE_ENV=production
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
