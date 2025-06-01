@@ -80,7 +80,48 @@
       aria-label="{{{ page.title || '' }}}"
       lang="{{ page.language || 'en' }}"
     >
-      <yield />
+      <div class="bg-slate-50 sm:px-4 font-inter w-[552px] max-w-full mx-auto">
+        <x-spacer height="24px" />
+        <table align="center" class="w-full">
+          <tr>
+            <td class="text-center">
+              <a href="https://example.com">
+                <img
+                  src="https://avatar.iran.liara.run/public"
+                  src-production="images/logo.png"
+                  width="70"
+                  alt="myTodo"
+                  class="mb-2"
+                />
+              </a>
+              <h1 class="m-0 mb-2 text-xl/8 text-slate-900 font-semibold">
+                Weekly Report for @{{ workspaceName }}
+              </h1>
+              <p class="text-slate-900">@{{ startDate }} - @{{ endDate }}</p>
+            </td>
+          </tr>
+        </table>
+
+        <table align="center" class="m-0 mx-auto">
+          <tr>
+            <td class="">
+              <x-spacer height="12px" />
+
+              <table class="w-full">
+                <tr>
+                  <td
+                    class="py-6 px-9 sm:p-6 bg-white [border:1px_solid_theme(colors.slate.200)] rounded-lg"
+                  >
+                    <yield />
+                  </td>
+                </tr>
+              </table>
+
+              <x-footer />
+            </td>
+          </tr>
+        </table>
+      </div>
     </div>
   </body>
 </html>

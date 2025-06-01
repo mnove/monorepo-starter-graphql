@@ -1,0 +1,39 @@
+You're invited to join {{ workspaceName }} workspace
+
+‍
+
+https://example.com
+
+‍
+
+Hello {{ name }},
+
+{{ inviterName }} is inviting you to join a
+{{ workspaceName }} workspace.
+
+To accept the invitation and create your account, please click the button
+below:
+
+Accept invitation
+
+{{ acceptInvitationUrl }}
+
+‍
+
+Thanks,
+
+myTodo
+
+‍
+
+If you're having trouble clicking the "Accept invitation" button, copy and
+paste the following URL into your web browser:
+{{ acceptInvitationUrl }} {{ acceptInvitationUrl }}
+
+Sent by myTodo
+•
+Contact Us
+•
+Homepage
+
+© 2025 myTodo. All rights reserved.

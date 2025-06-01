@@ -1,6 +1,6 @@
 ---
 bodyClass: bg-slate-50
-preheader: Verify your email address to activate your account
+preheader: You're invited to join @{{ workspaceName }} workspace
 ---
 
 <x-transactional>
@@ -20,15 +20,20 @@ preheader: Verify your email address to activate your account
   </h1>
 
   <p class="m-0 mb-6 text-base/6 text-slate-600">
-    We're happy to have you on board! Please verify your email address in order
-    to activate your account:
+    @{{ inviterName }} is inviting you to join a
+    <span class="font-semibold">@{{ workspaceName }}</span> workspace.
+  </p>
+
+  <p class="m-0 mb-6 text-base/6 text-slate-600">
+    To accept the invitation and create your account, please click the button
+    below:
   </p>
 
   <x-button
-    href="@{{ verificationUrl }}"
+    href="@{{ acceptInvitationUrl }}"
     class="bg-slate-950 hover:bg-slate-800"
   >
-    Verify email
+    Accept invitation
   </x-button>
 
   <x-spacer height="24px" />
@@ -42,10 +47,10 @@ preheader: Verify your email address to activate your account
   <x-divider />
 
   <p class="m-0 text-xs/5 text-slate-600 mso-break-all">
-    If you're having trouble clicking the "Verify email" button, copy and paste
-    the following URL into your web browser:
-    <a href="@{{ verificationUrl }}" class="text-slate-800 underline"
-      >@{{ verificationUrl }}</a
+    If you're having trouble clicking the "Accept invitation" button, copy and
+    paste the following URL into your web browser:
+    <a href="@{{ acceptInvitationUrl }}" class="text-slate-800 underline"
+      >@{{ acceptInvitationUrl }}</a
     >
   </p>
 </x-transactional>

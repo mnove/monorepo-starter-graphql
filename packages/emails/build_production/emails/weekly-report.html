@@ -32,19 +32,16 @@
           font-family: "Segoe UI", sans-serif;
           mso-line-height-rule: exactly;
         }
-        .mso-break-all {
-          word-break: break-all;
-        }
       </style>
     <![endif]-->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" media="screen">
   <style>
-    .hover-bg-slate-800:hover {
-      background-color: #1e293b !important
-    }
     @media (max-width: 600px) {
+      .sm-w-full {
+        width: 100% !important
+      }
       .sm-p-6 {
         padding: 24px !important
       }
@@ -61,7 +58,7 @@
 </head>
 <body style="margin: 0; width: 100%; background-color: #f8fafc; padding: 0; -webkit-font-smoothing: antialiased; word-break: break-word">
   <div style="display: none">
-    Reset your password
+    Your summary report for {{ workspaceName }} is here!
     &#8199;&#65279;&#847;
     &#8199;&#65279;&#847;
     &#8199;&#65279;&#847;
@@ -213,46 +210,109 @@
     &#8199;&#65279;&#847;
     &#8199;&#65279;&#847; </div>
   <div role="article" aria-roledescription="email" aria-label lang="en">
-    <div class="sm-px-4" style="background-color: #f8fafc; font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif">
+    <div class="sm-px-4" style="margin-left: auto; margin-right: auto; width: 552px; max-width: 100%; background-color: #f8fafc; font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif">
+      <div role="separator" style="line-height: 24px">&zwj;</div>
+      <table align="center" style="width: 100%" cellpadding="0" cellspacing="0" role="none">
+        <tr>
+          <td style="text-align: center">
+            <a href="https://example.com">
+              <img src="images/logo.png" width="70" alt="myTodo" style="max-width: 100%; vertical-align: middle; margin-bottom: 8px">
+            </a>
+            <h1 style="margin: 0 0 8px; font-size: 20px; line-height: 32px; font-weight: 600; color: #0f172a">
+              Weekly Report for {{ workspaceName }}
+            </h1>
+            <p style="color: #0f172a">{{ startDate }} - {{ endDate }}</p>
+          </td>
+        </tr>
+      </table>
       <table align="center" style="margin: 0 auto" cellpadding="0" cellspacing="0" role="none">
         <tr>
-          <td style="width: 552px; max-width: 100%">
-            <div role="separator" style="line-height: 24px">&zwj;</div>
+          <td>
+            <div role="separator" style="line-height: 12px">&zwj;</div>
             <table style="width: 100%" cellpadding="0" cellspacing="0" role="none">
               <tr>
-                <td class="sm-p-6" style="border-radius: 8px; background-color: #fffffe; padding: 24px 36px; border: 1px solid #e2e8f0"> <a href="https://example.com">
-                    <img src="images/logo.png" width="70" alt="myTodo" style="max-width: 100%; vertical-align: middle">
-                  </a>
+                <td class="sm-p-6" style="border-radius: 8px; background-color: #fffffe; padding: 24px 36px; border: 1px solid #e2e8f0">
                   <div role="separator" style="line-height: 24px">&zwj;</div>
                   <h1 style="margin: 0 0 24px; font-size: 24px; line-height: 32px; font-weight: 600; color: #0f172a">
-                    Hello {{ name }},
+                    Your activity
                   </h1>
-                  <p style="margin: 0 0 24px; font-size: 16px; line-height: 24px; color: #475569">
-                    We just got a request to reset your password.
-                  </p>
-                  <p style="margin: 0 0 24px; font-size: 16px; line-height: 24px; color: #475569">
-                    If you didn't make this request, you can safely ignore this email. If you
-                    did, please click the button below to reset your password:
-                  </p>
-                  <div>
-                    <a href="{{ resetPasswordUrl }}" style="display: inline-block; text-decoration: none; padding: 16px 24px; font-size: 16px; line-height: 1; border-radius: 4px; color: #fffffe; background-color: #020617" class="hover-bg-slate-800">
-                      <!--[if mso]><i style="mso-font-width: 150%; mso-text-raise: 31px" hidden>&emsp;</i><![endif]-->
-                      <span style="mso-text-raise: 16px">Reset password</span>
-                      <!--[if mso]><i hidden style="mso-font-width: 150%">&emsp;&#8203;</i><![endif]-->
-                    </a>
+                  <table class="sm-w-full" style="margin-bottom: 24px; width: 600px; border-spacing: 0 8px" cellpadding="0" cellspacing="0" role="none">
+                    <tr style="margin-bottom: 24px">
+                      <td class="sm-w-full" style="display: inline-block; width: 33.333333%">
+                        <div style="border-radius: 8px; background-color: #fffffe; padding: 8px; text-align: center; color: #475569; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); border: 1px solid #e2e8f0">
+                          <div>
+                            <p style="margin-bottom: 8px; margin-top: 0">Total tasks</p>
+                          </div>
+                          <div>
+                            <p style="margin: 0; font-size: 20px; font-weight: 600">{{ totalTasks }}</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="sm-w-full" style="display: inline-block; width: 66.666667%">
+                        <div style="padding-left: 12px">
+                          <p style="margin: 0; color: #475569">Some explanaition</p>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr style="margin: 24px">
+                      <td class="sm-w-full" style="display: inline-block; width: 33.333333%">
+                        <div style="border-radius: 8px; background-color: #fffffe; padding: 8px; text-align: center; color: #475569; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); border: 1px solid #e2e8f0">
+                          <div>
+                            <p style="margin-bottom: 8px; margin-top: 0">Total tasks</p>
+                          </div>
+                          <div>
+                            <p style="margin: 0; font-size: 20px; font-weight: 600">{{ totalTasks }}</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="sm-w-full" style="display: inline-block; width: 66.666667%">
+                        <div style="padding-left: 12px">
+                          <p style="margin: 0; color: #475569">Some explanaition</p>
+                        </div>
+                      </td>
+                    </tr>
+                  </table>
+                  <div style="margin-bottom: 24px">
+                    <h2 style="margin: 0 0 16px; font-size: 18px; font-weight: 600; color: #0f172a">
+                      Weekly Progress
+                    </h2>
+                    <div style="border-radius: 8px; border-width: 1px; border-color: #e2e8f0; background-color: #fffffe; padding: 24px">
+                      <table style="width: 100%" cellpadding="0" cellspacing="0" role="none">
+                        <tr style="font-size: 12px; color: #64748b">
+                          <td style="padding-bottom: 8px">Mon</td>
+                          <td style="padding-bottom: 8px">Tue</td>
+                          <td style="padding-bottom: 8px">Wed</td>
+                          <td style="padding-bottom: 8px">Thu</td>
+                          <td style="padding-bottom: 8px">Fri</td>
+                          <td style="padding-bottom: 8px">Sat</td>
+                          <td style="padding-bottom: 8px">Sun</td>
+                        </tr>
+                        <tr style="height: 100px; vertical-align: bottom">
+                          <td style="padding-right: 4px">
+                            <div style="height: 20px; border-top-left-radius: 4px; border-top-right-radius: 4px; background-color: #3b82f6"></div>
+                          </td>
+                          <td style="padding-right: 4px">
+                            <div style="height: 45px; border-top-left-radius: 4px; border-top-right-radius: 4px; background-color: #3b82f6"></div>
+                          </td>
+                          <td style="padding-right: 4px">
+                            <div style="height: 30px; border-top-left-radius: 4px; border-top-right-radius: 4px; background-color: #3b82f6"></div>
+                          </td>
+                          <td style="padding-right: 4px">
+                            <div style="height: 70px; border-top-left-radius: 4px; border-top-right-radius: 4px; background-color: #3b82f6"></div>
+                          </td>
+                          <td style="padding-right: 4px">
+                            <div style="height: 85px; border-top-left-radius: 4px; border-top-right-radius: 4px; background-color: #3b82f6"></div>
+                          </td>
+                          <td style="padding-right: 4px">
+                            <div style="height: 60px; border-top-left-radius: 4px; border-top-right-radius: 4px; background-color: #3b82f6"></div>
+                          </td>
+                          <td>
+                            <div style="height: 90px; border-top-left-radius: 4px; border-top-right-radius: 4px; background-color: #3b82f6"></div>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
                   </div>
-                  <div role="separator" style="line-height: 24px">&zwj;</div>
-                  <p style="margin: 0; font-size: 16px; line-height: 24px; color: #475569">
-                    Thanks,
-                    <br>
-                    <span style="font-weight: 600">myTodo</span>
-                  </p>
-                  <div role="separator" style="height: 1px; line-height: 1px; background-color: #cbd5e1; margin-top: 24px; margin-bottom: 24px">&zwj;</div>
-                  <p class="mso-break-all" style="margin: 0; font-size: 12px; line-height: 20px; color: #475569">
-                    If you're having trouble clicking the "Reset password" button, copy and
-                    paste the following URL into your web browser:
-                    <a href="{{ resetPasswordUrl }}" style="color: #1e293b; text-decoration: underline">{{ resetPasswordUrl }}</a>
-                  </p>
                 </td>
               </tr>
             </table>

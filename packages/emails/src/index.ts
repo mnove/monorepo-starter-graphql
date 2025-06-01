@@ -3,7 +3,10 @@ import { join } from "path";
 
 export type TemplateVariables = Record<string, string | number>;
 
-export type AvailableTemplates = "verify-email" | "reset-password";
+export type AvailableTemplates =
+  | "verify-email"
+  | "reset-password"
+  | "invite-user";
 export type TemplateFormat = "html" | "txt";
 
 // Define specific variable types for each template
@@ -18,10 +21,17 @@ export interface ResetPasswordTemplateVariables {
   companyName?: string;
 }
 
+export interface InviteUserTemplateVariables {
+  name: string;
+  inviterName: string;
+  acceptInvitationUrl: string;
+  workspaceName: string;
+}
 // Generic template variables interface
 export interface TemplateVariableMap {
   "verify-email": VerifyEmailTemplateVariables;
   "reset-password": ResetPasswordTemplateVariables;
+  "invite-user": InviteUserTemplateVariables;
 }
 
 // Template result interface
@@ -121,6 +131,7 @@ export function renderEmailTemplates<T extends AvailableTemplates>(
 export const templates = {
   verifyEmail: () => getEmailTemplates("verify-email"),
   resetPassword: () => getEmailTemplates("reset-password"),
+  inviteUser: () => getEmailTemplates("invite-user"),
 } as const;
 
 /**
@@ -132,4 +143,6 @@ export const emailTemplates = {
     renderEmailTemplates("verify-email", variables),
   resetPassword: (variables: ResetPasswordTemplateVariables) =>
     renderEmailTemplates("reset-password", variables),
+  inviteUser: (variables: InviteUserTemplateVariables) =>
+    renderEmailTemplates("invite-user", variables),
 } as const;

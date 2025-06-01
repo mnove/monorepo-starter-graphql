@@ -1,0 +1,17 @@
+<script props>
+  module.exports = {
+    title: props.title || "Default title",
+    value: props.value || "0",
+  };
+</script>
+
+<div
+  class="p-2 shadow-sm text-center text-slate-600 bg-white [border:1px_solid_theme(colors.slate.200)] rounded-lg"
+>
+  <div>
+    <p class="mb-2 mt-0">{{ title}}</p>
+  </div>
+  <div>
+    <p class="font-semibold text-xl m-0">{{ value}}</p>
+  </div>
+</div>

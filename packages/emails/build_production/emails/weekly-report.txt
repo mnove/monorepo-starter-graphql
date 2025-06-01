@@ -1,0 +1,45 @@
+Your summary report for {{ workspaceName }} is here!
+
+‍
+
+https://example.com
+
+Weekly Report for {{ workspaceName }}
+
+{{ startDate }} - {{ endDate }}
+
+‍
+
+‍
+
+Your activity
+
+Total tasks
+
+{{ totalTasks }}
+
+Some explanaition
+
+Total tasks
+
+{{ totalTasks }}
+
+Some explanaition
+
+Weekly Progress
+
+Mon
+Tue
+Wed
+Thu
+Fri
+Sat
+Sun
+
+Sent by myTodo
+•
+Contact Us
+•
+Homepage
+
+© 2025 myTodo. All rights reserved.

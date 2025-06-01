@@ -1,0 +1,79 @@
+---
+bodyClass: bg-slate-50
+preheader: Your summary report for @{{ workspaceName }} is here!
+---
+
+<x-report>
+  <x-spacer height="24px" />
+
+  <h1 class="m-0 mb-6 text-2xl/8 text-slate-900 font-semibold">
+    Your activity
+  </h1>
+
+  <table class="w-[600px] sm:w-full mb-6 border-spacing-y-2">
+    <tr class="mb-6">
+      <td class="w-4/12 sm:w-full inline-block">
+        <x-stat-number title="Total tasks" value="@{{ totalTasks }}" />
+      </td>
+      <td class="w-8/12 sm:w-full inline-block">
+        <div class="pl-3">
+          <p class="text-slate-600 m-0">Some explanaition</p>
+        </div>
+      </td>
+    </tr>
+    <tr class="m-6">
+      <td class="w-4/12 sm:w-full inline-block">
+        <x-stat-number title="Total tasks" value="@{{ totalTasks }}" />
+      </td>
+      <td class="w-8/12 sm:w-full inline-block">
+        <div class="pl-3">
+          <p class="text-slate-600 m-0">Some explanaition</p>
+        </div>
+      </td>
+    </tr>
+  </table>
+
+  <!-- Alternative: Simple Bar Chart -->
+  <div class="mb-6">
+    <h2 class="m-0 mb-4 text-lg font-semibold text-slate-900">
+      Weekly Progress
+    </h2>
+
+    <div class="bg-white rounded-lg p-6 border border-slate-200">
+      <table class="w-full">
+        <tr class="text-xs text-slate-500">
+          <td class="pb-2">Mon</td>
+          <td class="pb-2">Tue</td>
+          <td class="pb-2">Wed</td>
+          <td class="pb-2">Thu</td>
+          <td class="pb-2">Fri</td>
+          <td class="pb-2">Sat</td>
+          <td class="pb-2">Sun</td>
+        </tr>
+        <tr class="align-bottom" style="height: 100px">
+          <td class="w-1/7 pr-1">
+            <div class="bg-blue-500 rounded-t" style="height: 20px"></div>
+          </td>
+          <td class="w-1/7 pr-1">
+            <div class="bg-blue-500 rounded-t" style="height: 45px"></div>
+          </td>
+          <td class="w-1/7 pr-1">
+            <div class="bg-blue-500 rounded-t" style="height: 30px"></div>
+          </td>
+          <td class="w-1/7 pr-1">
+            <div class="bg-blue-500 rounded-t" style="height: 70px"></div>
+          </td>
+          <td class="w-1/7 pr-1">
+            <div class="bg-blue-500 rounded-t" style="height: 85px"></div>
+          </td>
+          <td class="w-1/7 pr-1">
+            <div class="bg-blue-500 rounded-t" style="height: 60px"></div>
+          </td>
+          <td class="w-1/7">
+            <div class="bg-blue-500 rounded-t" style="height: 90px"></div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</x-report>

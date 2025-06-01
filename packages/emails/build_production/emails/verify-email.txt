@@ -8,8 +8,8 @@ https://example.com
 
 Hello {{ name }},
 
-We're happy to have you on board! Please verify your email
-address in order to activate your account:
+We're happy to have you on board! Please verify your email address in order
+to activate your account:
 
 Verify email
 
@@ -23,9 +23,14 @@ myTodo
 
 ‍
 
-If you're having trouble clicking the "Verify email" button,
-copy and paste the following URL into your web browser:
+If you're having trouble clicking the "Verify email" button, copy and paste
+the following URL into your web browser:
 {{ verificationUrl }} {{ verificationUrl }}
 
-© 2025 myTodo. All rights
-reserved.
+Sent by myTodo
+•
+Contact Us
+•
+Homepage
+
+© 2025 myTodo. All rights reserved.

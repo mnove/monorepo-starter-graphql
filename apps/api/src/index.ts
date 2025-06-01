@@ -1,29 +1,14 @@
+import { auth } from "@/lib/auth";
 import prisma from "@/utils/prisma-client";
 import fastifyCompress from "@fastify/compress";
 import fastifyCors from "@fastify/cors";
 import fastifyHelmet from "@fastify/helmet";
-// import { renderGraphiQL } from '@graphql-yoga/render-graphiql'
 import fastify from "fastify";
-// import { createServer } from '@graphql-yoga/node'
 import { createYoga } from "graphql-yoga";
-
-// import { schema } from './api/graphql/typeDefs'
-import { envelopPlugins } from "./envelopPlugins";
-import { renderApolloStudio } from "./utils/render-studio";
-
-import { auth } from "@/lib/auth";
 import { serverConfig } from "./config/server-config";
 import { GraphQLServerContext } from "./context";
-import { Resend } from "resend";
-// import { emailTemplates, sendTemplateEmail } from "./lib/email";
-// import { ResetPassword, sendEmail } from "@repo/emails";
-import {
-  emailTemplates,
-  renderEmailTemplate,
-  type TemplateVariables,
-} from "@repo/emails";
-
-const resend = new Resend(process.env.RESEND_API_KEY);
+import { envelopPlugins } from "./envelopPlugins";
+import { renderApolloStudio } from "./utils/render-studio";
 
 const PORT = process.env.PORT || 5001;
 const GRAPHQL_ENDPOINT = process.env.GRAPHQL_ENDPOINT || "/graphql";
@@ -109,15 +94,20 @@ app.route({
     console.log("test-email");
     try {
       // Get both HTML and TXT templates with variables replaced
-      const emailContent = emailTemplates.verifyEmail({
-        name: "Marcello",
-        verificationUrl: "https://example.com/verify?token=abc123",
-        companyName: "Your Company",
-      });
+      // const emailContent = emailTemplates.verifyEmail({
+      //   name: "Marcello",
+      //   verificationUrl: "https://example.com/verify?token=abc123",
+      //   companyName: "Your Company",
+      // });
 
-      // Now you can pick which version you want to use
-      console.log("Email HTML:", emailContent.html.substring(0, 200));
-      console.log("Email TXT:", emailContent.text);
+      // const workspaceName = "ACME Team";
+      // const inviterName = "John Doe";
+      // const emailContent = emailTemplates.inviteUser({
+      //   name: "Marcello",
+      //   acceptInvitationUrl: "https://example.com/verify?token=abc123",
+      //   workspaceName: workspaceName,
+      //   inviterName: inviterName,
+      // });
 
       const result = "Email sent successfully with both HTML and TXT versions";
       reply.send(result);

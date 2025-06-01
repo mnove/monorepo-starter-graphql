@@ -3,8 +3,7 @@ import prisma from "@/utils/prisma-client";
 import { emailTemplates } from "@repo/emails";
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-import { resend } from "./send";
-// import { emailTemplates, sendTemplateEmail } from "./email";
+import { sendEmail } from "@/lib/send";
 
 export const auth = betterAuth({
   trustedOrigins: [...serverConfig.trustedOrigins],
@@ -31,7 +30,7 @@ export const auth = betterAuth({
         // companyName: "Your Company",
       });
 
-      await resend.emails.send({
+      await sendEmail({
         from: "Your App <onboarding@resend.dev>",
         to: [user.email],
         subject: "Reset your password",

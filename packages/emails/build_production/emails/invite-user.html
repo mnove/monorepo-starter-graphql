@@ -61,7 +61,7 @@
 </head>
 <body style="margin: 0; width: 100%; background-color: #f8fafc; padding: 0; -webkit-font-smoothing: antialiased; word-break: break-word">
   <div style="display: none">
-    Reset your password
+    You're invited to join {{ workspaceName }} workspace
     &#8199;&#65279;&#847;
     &#8199;&#65279;&#847;
     &#8199;&#65279;&#847;
@@ -228,16 +228,17 @@
                     Hello {{ name }},
                   </h1>
                   <p style="margin: 0 0 24px; font-size: 16px; line-height: 24px; color: #475569">
-                    We just got a request to reset your password.
+                    {{ inviterName }} is inviting you to join a
+                    <span style="font-weight: 600">{{ workspaceName }}</span> workspace.
                   </p>
                   <p style="margin: 0 0 24px; font-size: 16px; line-height: 24px; color: #475569">
-                    If you didn't make this request, you can safely ignore this email. If you
-                    did, please click the button below to reset your password:
+                    To accept the invitation and create your account, please click the button
+                    below:
                   </p>
                   <div>
-                    <a href="{{ resetPasswordUrl }}" style="display: inline-block; text-decoration: none; padding: 16px 24px; font-size: 16px; line-height: 1; border-radius: 4px; color: #fffffe; background-color: #020617" class="hover-bg-slate-800">
+                    <a href="{{ acceptInvitationUrl }}" style="display: inline-block; text-decoration: none; padding: 16px 24px; font-size: 16px; line-height: 1; border-radius: 4px; color: #fffffe; background-color: #020617" class="hover-bg-slate-800">
                       <!--[if mso]><i style="mso-font-width: 150%; mso-text-raise: 31px" hidden>&emsp;</i><![endif]-->
-                      <span style="mso-text-raise: 16px">Reset password</span>
+                      <span style="mso-text-raise: 16px">Accept invitation</span>
                       <!--[if mso]><i hidden style="mso-font-width: 150%">&emsp;&#8203;</i><![endif]-->
                     </a>
                   </div>
@@ -249,9 +250,9 @@
                   </p>
                   <div role="separator" style="height: 1px; line-height: 1px; background-color: #cbd5e1; margin-top: 24px; margin-bottom: 24px">&zwj;</div>
                   <p class="mso-break-all" style="margin: 0; font-size: 12px; line-height: 20px; color: #475569">
-                    If you're having trouble clicking the "Reset password" button, copy and
+                    If you're having trouble clicking the "Accept invitation" button, copy and
                     paste the following URL into your web browser:
-                    <a href="{{ resetPasswordUrl }}" style="color: #1e293b; text-decoration: underline">{{ resetPasswordUrl }}</a>
+                    <a href="{{ acceptInvitationUrl }}" style="color: #1e293b; text-decoration: underline">{{ acceptInvitationUrl }}</a>
                   </p>
                 </td>
               </tr>
