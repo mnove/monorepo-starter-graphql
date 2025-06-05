@@ -1,5 +1,5 @@
 import { auth } from "@/lib/auth";
-import prisma from "@/utils/prisma-client";
+import prisma from "@repo/database";
 import fastifyCompress from "@fastify/compress";
 import fastifyCors from "@fastify/cors";
 import fastifyHelmet from "@fastify/helmet";
@@ -17,8 +17,6 @@ const USE_APOLLO_STUDIO =
 
 const app = fastify({ logger: true });
 
-console.log("Server configuration:", serverConfig);
-console.log("trusted origins", [...serverConfig.trustedOrigins]);
 app.register(fastifyCors, {
   origin: [...serverConfig.trustedOrigins],
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],

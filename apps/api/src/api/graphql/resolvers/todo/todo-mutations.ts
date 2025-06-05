@@ -7,7 +7,7 @@ import {
   createValidationError,
 } from "@/utils/errors";
 import { withTypename } from "@/utils/with-typename";
-import { Prisma } from "@/generated/prisma-client";
+import { Prisma } from "@repo/database";
 
 import {
   TodoCreateInputSchema,

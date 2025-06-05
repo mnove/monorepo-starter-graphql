@@ -1,7 +1,7 @@
 import { QueryResolvers } from "@/generated/graphql";
 import { createNotFoundError, createServerError } from "@/utils/errors";
 import { withTypename } from "@/utils/with-typename";
-import { Prisma } from "@/generated/prisma-client";
+import { Prisma } from "@repo/database";
 
 // Helper function to encode cursor
 const encodeCursor = (id: string, date: Date): string => {

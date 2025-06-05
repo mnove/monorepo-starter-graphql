@@ -38,7 +38,7 @@ COPY --from=installer /app/ .
 COPY --from=pruner /app/out/full/ .
 
 # Generate Prisma client first (needed for build)
-RUN cd apps/api && pnpm run generate
+RUN cd packages/database && pnpm run db:generate
 
 # Build the application and its dependencies using turbo
 RUN pnpm turbo run build --filter=api...
@@ -61,11 +61,12 @@ COPY --from=builder /app/apps/api/dist/ ./apps/api/dist/
 COPY --from=builder /app/packages/logger/dist/ ./packages/logger/dist/
 COPY --from=builder /app/packages/validation-schema/dist/ ./packages/validation-schema/dist/
 COPY --from=builder /app/packages/emails/dist/ ./packages/emails/dist/
+COPY --from=builder /app/packages/database/dist/ ./packages/database/dist/
 COPY --from=builder /app/packages/emails/build_production/ ./packages/emails/build_production/
 
 # Copy Prisma schema and migrations for production database migrations
-COPY --from=builder /app/apps/api/prisma/ ./apps/api/prisma/
-COPY --from=builder /app/apps/api/src/generated/ ./apps/api/generated/
+COPY --from=builder /app/packages/database/prisma/ ./packages/database/prisma/
+COPY --from=builder /app/packages/database/generated/ ./packages/database/generated/
 
 # Copy the startup script and make it executable
 COPY --from=builder /app/apps/api/start.sh ./apps/api/start.sh

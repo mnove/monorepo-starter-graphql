@@ -1,0 +1,25 @@
+{
+  "name": "@repo/database",
+  "version": "0.0.0",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "pnpm db:generate && tsup src/index.ts --format cjs,esm && tsc --emitDeclarationOnly --declaration",
+    "copy-files": "node copy-files.js",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev --skip-generate",
+    "db:deploy": "prisma migrate deploy"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "@types/node": "^22.15.29",
+    "fs-extra": "^11.3.0",
+    "prisma": "^6.8.2",
+    "tsup": "8.4.0",
+    "typescript": "5.8.2"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.8.2"
+  }
+}

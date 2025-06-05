@@ -1,4 +1,4 @@
-import { User } from "@/generated/prisma-client";
+import { User } from "@repo/database";
 import { useExtendContext, useSchema } from "@envelop/core";
 import { ResolveUserFn, useGenericAuth } from "@envelop/generic-auth";
 import { EnvelopArmorPlugin } from "@escape.tech/graphql-armor";

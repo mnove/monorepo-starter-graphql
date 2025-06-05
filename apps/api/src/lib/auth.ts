@@ -1,5 +1,5 @@
 import { serverConfig } from "@/config/server-config";
-import prisma from "@/utils/prisma-client";
+import prisma from "@repo/database";
 import { emailTemplates } from "@repo/emails";
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";

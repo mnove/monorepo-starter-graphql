@@ -28,7 +28,7 @@ services:
       context: .
       dockerfile: Dockerfile.prod
     entrypoint: [] # Override the default entrypoint
-    command: sh -c "cd /app/apps/api && ./node_modules/.bin/prisma migrate deploy"
+    command: sh -c "cd /app/packages/database && npx prisma migrate deploy"
     environment:
       - DATABASE_URL=${DATABASE_URL}
       - NODE_ENV=${NODE_ENV}

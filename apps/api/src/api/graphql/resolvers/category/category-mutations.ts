@@ -1,5 +1,5 @@
 import { MutationResolvers } from "@/generated/graphql";
-import { Prisma } from "@/generated/prisma-client";
+
 import {
   createConflictError,
   createNotFoundError,
@@ -8,6 +8,7 @@ import {
   createValidationError,
 } from "@/utils/errors";
 import { withTypename } from "@/utils/with-typename";
+import { Prisma } from "@repo/database";
 import {
   CategoryCreateInputSchema,
   CategoryUpdateInputSchema,

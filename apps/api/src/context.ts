@@ -1,5 +1,5 @@
 import { DefaultContext } from "@envelop/core";
-import prisma from "./utils/prisma-client";
+import prisma from "@repo/database";
 
 export interface GraphQLServerContext extends DefaultContext {
   prisma: typeof prisma;
