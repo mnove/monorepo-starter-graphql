@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { CategoryCreateInput, CategoryUpdateInput } from "../generated/graphql";
-
+// import { CategoryCreateInput, CategoryUpdateInput } from "../generated/graphql";
+import { CategoryCreateInput, CategoryUpdateInput } from "@repo/schema";
 type Properties<T> = Required<{
   [K in keyof T]: z.ZodType<T[K], any, T[K]>;
 }>;

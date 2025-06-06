@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { TodoCreateInput, TodoUpdateInput } from "../generated/graphql";
-
+// import { TodoCreateInput, TodoUpdateInput } from "../generated/graphql";
+import { TodoCreateInput, TodoUpdateInput } from "@repo/schema";
 type Properties<T> = Required<{
   [K in keyof T]: z.ZodType<T[K], any, T[K]>;
 }>;

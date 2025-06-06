@@ -8,15 +8,12 @@
   "exports": {
     ".": {
       "import": "./dist/index.mjs",
-      "require": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.js"
     }
   },
   "scripts": {
-    "prebuild": "pnpm run codegen:graphql",
     "build": "tsup src/index.ts --format cjs,esm --dts",
     "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
-    "codegen:graphql": "graphql-codegen",
     "type-check": "tsc --noEmit"
   },
   "keywords": [],
@@ -27,13 +24,9 @@
   },
   "devDependencies": {
     "@repo/schema": "workspace:*",
-    "@graphql-codegen/cli": "^5.0.6",
-    "@graphql-codegen/typescript": "4.1.6",
     "@repo/typescript-config": "workspace:*",
     "@types/node": "catalog:",
     "graphql": "catalog:",
-    "graphql-codegen-typescript-validation-schema": "^0.17.1",
-    "graphql-scalars": "^1.24.2",
     "tsup": "catalog:",
     "typescript": "catalog:"
   }
