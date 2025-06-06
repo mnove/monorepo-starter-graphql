@@ -8,9 +8,12 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "lint": "turbo run lint",
     "test": "turbo run test",
+    "test:api": "pnpm --filter api test:full",
+    "test:api:watch": "pnpm --filter api test:watch",
     "check-types": "turbo run check-types",
     "docker:dev": "docker compose up",
-    "docker:prod": "docker compose -f docker-compose.prod.yml up  -d"
+    "docker:prod": "docker compose -f docker-compose.prod.yml up  -d",
+    "docker:test": "docker compose -f docker-compose.test.yml up -d"
   },
   "devDependencies": {
     "prettier": "^3.5.3",
