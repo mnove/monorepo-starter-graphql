@@ -1,5 +1,0 @@
-schema: "../api/src/api/graphql/typeDefs/**/*.ts"
-generates:
-  ./introspection/introspection.json:
-    plugins:
-      - introspection

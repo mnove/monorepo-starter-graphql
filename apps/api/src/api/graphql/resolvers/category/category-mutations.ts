@@ -1,4 +1,4 @@
-import { MutationResolvers } from "@/generated/graphql";
+import { MutationResolvers } from "@repo/schema";
 
 import {
   createConflictError,

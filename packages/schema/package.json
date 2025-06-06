@@ -1,6 +1,6 @@
 {
-  "name": "@repo/validation-schema",
-  "version": "1.0.0",
+  "name": "@repo/schema",
+  "version": "0.0.0",
   "description": "",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -8,8 +8,7 @@
   "exports": {
     ".": {
       "import": "./dist/index.mjs",
-      "require": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.js"
     }
   },
   "scripts": {
@@ -23,12 +22,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "zod": "3.24.4"
+    "@envelop/core": "^5.2.3"
   },
   "devDependencies": {
-    "@repo/schema": "workspace:*",
     "@graphql-codegen/cli": "^5.0.6",
     "@graphql-codegen/typescript": "4.1.6",
+    "@graphql-codegen/typescript-resolvers": "^4.5.1",
+    "@graphql-tools/merge": "^9.0.24",
+    "@repo/database": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@types/node": "catalog:",
     "graphql": "catalog:",

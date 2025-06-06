@@ -1,4 +1,4 @@
-import { QueryResolvers } from "@/generated/graphql";
+import { QueryResolvers } from "@repo/schema";
 import {
   createNotFoundError,
   createServerError,

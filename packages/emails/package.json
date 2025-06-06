@@ -11,7 +11,8 @@
     "dev": "maizzle serve",
     "build:maizzle": "maizzle build production",
     "build:ts": "tsc",
-    "build": "npm run build:maizzle && npm run build:ts"
+    "build": "npm run build:maizzle && npm run build:ts",
+    "type-check": "tsc --noEmit"
   },
   "devDependencies": {
     "@maizzle/framework": "5.0.1",

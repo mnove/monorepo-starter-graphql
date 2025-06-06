@@ -9,6 +9,7 @@ import { serverConfig } from "./config/server-config";
 import { GraphQLServerContext } from "./context";
 import { envelopPlugins } from "./envelopPlugins";
 import { renderApolloStudio } from "./utils/render-studio";
+import { normalizeAuthSession, normalizeAuthUser } from "./utils/normalize";
 
 const PORT = process.env.PORT || 5001;
 const GRAPHQL_ENDPOINT = process.env.GRAPHQL_ENDPOINT || "/graphql";
@@ -179,8 +180,8 @@ app.route({
     const response = await yoga.handleNodeRequestAndResponse(req, reply, {
       req,
       reply,
-      user: session?.user || null,
-      session: session || null,
+      user: normalizeAuthUser(session?.user),
+      session: normalizeAuthSession(session),
     });
 
     response.headers.forEach((value, key) => {

@@ -1,4 +1,4 @@
-import { QueryResolvers } from "@/generated/graphql";
+import { QueryResolvers } from "@repo/schema";
 import { createNotFoundError, createServerError } from "@/utils/errors";
 import { withTypename } from "@/utils/with-typename";
 import { Prisma } from "@repo/database";

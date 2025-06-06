@@ -1,5 +1,6 @@
 generated
 dist
+build_production
 #ignore all .env files
 .env*
 #exclude .env.example

@@ -5,7 +5,7 @@ import {
   UnauthorizedError,
   ConflictError,
   ServerError,
-} from "@/generated/graphql";
+} from "@repo/schema";
 
 export const createValidationError = (
   error: ZodError

@@ -1,4 +1,4 @@
-import { CategoryResolvers, Todo } from "@/generated/graphql";
+import { CategoryResolvers, Todo } from "@repo/schema";
 import { GraphQLServerContext } from "@/context";
 import { withTypename } from "@/utils/with-typename";
 import { createUnauthorizedError } from "@/utils/errors";

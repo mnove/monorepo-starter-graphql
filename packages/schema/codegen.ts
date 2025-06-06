@@ -1,14 +1,15 @@
 import { CodegenConfig } from "@graphql-codegen/cli";
 import { DateTimeResolver } from "graphql-scalars";
+
 const config: CodegenConfig = {
   overwrite: true,
-  schema: "./src/api/graphql/typeDefs/**/*.ts",
+  schema: "./src/typeDefs/**/*.ts",
   generates: {
-    "./src/generated/graphql.ts": {
+    "./generated/graphql.ts": {
       plugins: ["typescript", "typescript-resolvers"],
       config: {
         useIndexSignature: true,
-        contextType: "../context#GraphQLServerContext",
+        contextType: "../src/context#GraphQLServerContext", // To use the context in resolvers
         // strictScalars: true,
         // mapperTypeSuffix: "Model",
         // mappers: {

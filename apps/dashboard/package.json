@@ -3,7 +3,6 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "predev": "graphql-codegen --config ./introspection.yml",
     "dev": "concurrently --kill-others --names \"client_vite,client_codegen\" --prefix-colors \"magenta,gray\" \"npm run dev:host\" \"npm run codegen:graphql:watch\"",
     "dev:host": "vite --host --port 3001",
     "start": "vite --port 3001",
@@ -26,13 +25,13 @@
     "@tanstack/router-plugin": "^1.114.3",
     "better-auth": "^1.2.7",
     "date-fns": "^4.1.0",
-    "graphql": "^16.11.0",
+    "graphql": "catalog:",
     "lucide-react": "^0.475.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "react": "catalog:",
+    "react-dom": "catalog:",
     "react-hook-form": "^7.56.2",
     "sonner": "^2.0.3",
-    "zod": "^3.24.2"
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.5",
@@ -53,9 +52,9 @@
     "concurrently": "^9.1.2",
     "jsdom": "^26.0.0",
     "prettier-plugin-tailwindcss": "^0.6.11",
-    "tailwindcss": "^4.1.5",
-    "tsup": "^8.4.0",
-    "typescript": "^5.7.2",
+    "tailwindcss": "catalog:",
+    "tsup": "catalog:",
+    "typescript": "catalog:",
     "vite": "^6.1.0",
     "vitest": "^3.0.5",
     "web-vitals": "^4.2.4"

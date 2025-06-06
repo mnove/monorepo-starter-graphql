@@ -1,4 +1,5 @@
-import { MutationResolvers } from "@/generated/graphql";
+// import { MutationResolvers } from "@/generated/graphql";
+import { MutationResolvers } from "@repo/schema";
 import {
   createConflictError,
   createNotFoundError,
@@ -14,6 +15,7 @@ import {
   TodoUpdateInputSchema,
 } from "@repo/validation-schema";
 import { ZodError } from "zod";
+import { GraphQLServerContext } from "@/context";
 
 export const TodoMutations: MutationResolvers = {
   createTodo: async (_: any, { todo }, { prisma, user }) => {

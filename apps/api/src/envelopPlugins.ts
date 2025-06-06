@@ -5,9 +5,10 @@ import { EnvelopArmorPlugin } from "@escape.tech/graphql-armor";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import { useDisableIntrospection } from "@graphql-yoga/plugin-disable-introspection";
 import { resolvers } from "./api/graphql/resolvers";
-import { typeDefs } from "./api/graphql/typeDefs";
+import { typeDefs } from "@repo/schema";
 import { createContext, GraphQLServerContext } from "./context";
 import { auth } from "./lib/auth";
+import { normalizeAuthUser } from "./utils/normalize";
 
 // Export the Context type from GraphQLServerContext
 export type Context = GraphQLServerContext;
@@ -37,7 +38,8 @@ const resolveUserFn: ResolveUserFn<User, GraphQLServerContext> = async (
       });
       const user = session?.user;
 
-      return user;
+      // Normalize the user to match Prisma types
+      return normalizeAuthUser(session?.user);
     }
   } catch (error) {
     console.error("Authentication error:", error);

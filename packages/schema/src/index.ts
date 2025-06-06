@@ -1,4 +1,5 @@
 import { mergeTypeDefs } from "@graphql-tools/merge";
+import { DocumentNode } from "graphql";
 import { categoryTypeDefs } from "./typeDefs/category";
 import { commonTypeDefs } from "./typeDefs/common";
 import { errorTypeDefs } from "./typeDefs/error";
@@ -14,7 +15,18 @@ const typesArray = [
   todosTypeDefs,
 ];
 
+export * from "./typeDefs/category";
+export * from "./typeDefs/common";
+export * from "./typeDefs/error";
+export * from "./typeDefs/scalars";
+export * from "./typeDefs/todo";
+
+// Generated graphql types
+export * from "../generated/graphql";
+
+// Export context for use in resolvers
+export type { GraphQLServerContext } from "./context";
 /**
  * Merges all GraphQL type definitions into a single schema.
  */
-export const typeDefs = mergeTypeDefs(typesArray);
+export const typeDefs: DocumentNode = mergeTypeDefs(typesArray);

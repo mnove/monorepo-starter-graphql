@@ -5,7 +5,8 @@ import {
   CategoryFieldResolvers,
 } from "./category";
 import { DateTimeResolver } from "graphql-scalars";
-import { Resolvers } from "@/generated/graphql";
+import { Resolvers } from "@repo/schema";
+import { GraphQLServerContext } from "@/context";
 
 export const resolvers: Resolvers = {
   Query: {
