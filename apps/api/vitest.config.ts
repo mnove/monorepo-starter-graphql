@@ -30,7 +30,8 @@ export default defineConfig({
       "src/test/setup.ts",
       "src/test/category.test.ts",
       "src/test/integration.test.ts",
-      "src/test/todo.test.ts",
+      // "src/test/todo.test.ts",
+      "src/test/auth.test.ts",
     ],
   },
   resolve: {

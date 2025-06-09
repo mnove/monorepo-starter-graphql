@@ -28,6 +28,14 @@ export class TestDatabase {
       emailAndPassword: {
         enabled: true,
       },
+      advanced: {
+        defaultCookieAttributes: {
+          secure: false, // Allow HTTP in test environment
+          httpOnly: true,
+          sameSite: "lax", // Less restrictive for testing
+          partitioned: false, // Disable for test environment
+        },
+      },
     });
   }
 

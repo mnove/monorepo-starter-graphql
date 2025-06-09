@@ -22,6 +22,9 @@ export class GraphQLTestClient {
       headers.cookie = this.sessionCookie;
     }
 
+    // console.log("GraphQL Query Headers:", headers);
+    // console.log("GraphQL Query:", query);
+
     const response = await this.app.inject({
       method: "POST",
       url: "/graphql",
@@ -31,6 +34,9 @@ export class GraphQLTestClient {
       },
       headers,
     });
+
+    // console.log("GraphQL Response Status:", response.statusCode);
+    // console.log("GraphQL Response Body:", response.body);
 
     return {
       data: JSON.parse(response.body),

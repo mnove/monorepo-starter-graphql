@@ -20,7 +20,6 @@ export class AuthTestHelper {
     private auth: any,
     private testDb: TestDatabase
   ) {}
-  
 
   async signUp(
     userData: Partial<{
@@ -50,7 +49,7 @@ export class AuthTestHelper {
       },
     });
 
-    console.log("Sign Up Response:", response.body);
+    // console.log("Sign Up Response:", response.body);
 
     return {
       data: JSON.parse(response.body),
@@ -86,6 +85,8 @@ export class AuthTestHelper {
       },
     });
 
+    // console.log("Sign In Response:", response.cookies);
+
     return {
       data: JSON.parse(response.body),
       cookies: response.cookies as SimpleCookie[],
@@ -102,22 +103,49 @@ export class AuthTestHelper {
       emailVerified: boolean;
     }> = {}
   ) {
-    // Create user in database
-    const user = await this.testDb.createTestUser(userData);
+    // Use the provided userData, but fall back to defaults
+    const userToCreate = {
+      email: userData.email || "test@example.com",
+      password: userData.password || "testPassword123",
+      name: userData.name || "Test User",
+    };
 
-    // Create session
-    const session = await this.testDb.createSession(user.id);
+    // Sign up the user
+    const signUpResult = await this.signUp(userToCreate);
 
-    // Return session cookie for requests
+    if (signUpResult.statusCode !== 200) {
+      throw new Error(
+        `Failed to sign up user: ${JSON.stringify(signUpResult.data)}`
+      );
+    }
+
+    // Sign in to get a session
+    const signInResult = await this.signIn({
+      email: userToCreate.email,
+      password: userToCreate.password,
+    });
+
+    if (signInResult.statusCode !== 200) {
+      throw new Error(
+        `Failed to sign in user: ${JSON.stringify(signInResult.data)}`
+      );
+    }
+
+    // console.log("createAuthenticatedUser - signInResult:", signInResult);
+
+    // Extract session cookie
+    const sessionCookie = this.extractSessionCookie(signInResult.cookies);
+
+    // Return all the necessary data
     return {
-      user,
-      session,
-      sessionCookie: `better-auth.session_token=${session.token}; Path=/; HttpOnly`,
+      user: signInResult.data.user,
+      cookies: signInResult.cookies,
+      sessionCookie,
     };
   }
 
   extractSessionCookie(cookies: SimpleCookie[]): string {
-    console.log("Extracting session cookie from:", cookies);
+    // console.log("Extracting session cookie from:", cookies);
     if (!cookies || cookies.length === 0) return "";
 
     const sessionCookie = cookies.find(
@@ -126,19 +154,37 @@ export class AuthTestHelper {
         cookie.name.includes("session")
     );
 
-    return sessionCookie ? `${sessionCookie.name}=${sessionCookie.value}` : "";
+    if (sessionCookie) {
+      // Format the cookie properly for headers
+      const cookieValue = `${sessionCookie.name}=${sessionCookie.value}`;
+      console.log("Extracted session cookie:", cookieValue);
+      return cookieValue;
+    }
+
+    console.log("No session cookie found");
+    return "";
   }
 
-  async signOut(): Promise<{
+  async signOut(sessionCookie?: string): Promise<{
     data: any;
     cookies: SimpleCookie[];
     statusCode: number;
+    headers: any;
   }> {
+    const headers: any = {
+      "content-type": "application/json",
+    };
+
+    if (sessionCookie) {
+      headers.cookie = sessionCookie;
+    }
+
     const response = await this.app.inject({
       method: "POST",
       url: "/api/auth/sign-out",
-      headers: {
-        "content-type": "application/json",
+      headers,
+      body: {
+        test: "test",
       },
     });
 
@@ -146,6 +192,7 @@ export class AuthTestHelper {
       data: response.body ? JSON.parse(response.body) : null,
       cookies: response.cookies as SimpleCookie[],
       statusCode: response.statusCode,
+      headers: response.headers,
     };
   }
 }

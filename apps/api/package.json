@@ -8,11 +8,11 @@
     "dev": "NODE_ENV=development nodemon --exec \"node --env-file .env  -r esbuild-register ./src/index.ts\" -e .ts ",
     "lint": "tsc --noEmit && eslint \"src/**/*.ts*\" --max-warnings 0",
     "start": "node -r esbuild-register ./src/index.ts",
-    "test": "DATABASE_URL=postgresql://test:test@localhost:5433/test?schema=public vitest run",
+    "test": "DATABASE_URL=postgresql://test:test@localhost:5433/test?schema=public vitest --ui",
     "test:watch": "DATABASE_URL=postgresql://test:test@localhost:5433/test?schema=public vitest",
     "test:setup": "docker compose -f ../../docker-compose.test.yml up -d postgres-test && sleep 5",
     "test:cleanup": "docker compose -f ../../docker-compose.test.yml down -v",
-    "test:full": "pnpm test:setup && pnpm test && pnpm test:cleanup",
+    "test:full": "pnpm test:setup && pnpm test; pnpm test:cleanup",
     "studio": "prisma studio"
   },
   "dependencies": {

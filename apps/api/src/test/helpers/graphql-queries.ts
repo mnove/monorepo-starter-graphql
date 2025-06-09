@@ -1,14 +1,79 @@
+export const FRAGMENTS = {
+  VALIDATION_ERROR: `
+    fragment ValidationErrorFragment on ValidationError {
+      message
+      code
+      field
+    }
+  `,
+
+  NOT_FOUND_ERROR: `
+    fragment NotFoundErrorFragment on NotFoundError {
+      message
+      code
+      resourceId
+      resourceType
+    }
+  `,
+
+  SERVER_ERROR: `
+    fragment ServerErrorFragment on ServerError {
+      message
+      code
+      details
+    }
+  `,
+
+  CONFLICT_ERROR: `
+    fragment ConflictErrorFragment on ConflictError {
+      message
+      code
+      conflictingField
+    }
+  `,
+
+  UNAUTHORIZED_ERROR: `
+    fragment UnauthorizedErrorFragment on UnauthorizedError {
+      message
+      code
+      operation
+    }
+  `,
+
+  ERROR: `
+    fragment ErrorFragment on Error {
+      ... on ValidationError {
+        ...ValidationErrorFragment
+      }
+      ... on NotFoundError {
+        ...NotFoundErrorFragment
+      }
+      ... on ServerError {
+        ...ServerErrorFragment
+      }
+      ... on ConflictError {
+        ...ConflictErrorFragment
+      }
+      ... on UnauthorizedError {
+        ...UnauthorizedErrorFragment
+      }
+    }
+  `,
+};
+
 // Authentication Queries and Mutations
 export const AUTH_QUERIES = {
   GET_ME: `
     query GetMe {
-      me {
-        id
-        email
-        name
-        emailVerified
-        createdAt
-        updatedAt
+      viewer {
+       ... on User {
+            id
+            name
+            email
+            emailVerified
+            createdAt
+            updatedAt
+        }
       }
     }
   `,
@@ -63,23 +128,37 @@ export const TODO_QUERIES = {
 
 export const TODO_MUTATIONS = {
   CREATE_TODO: `
-    mutation CreateTodo($input: CreateTodoInput!) {
-      createTodo(input: $input) {
-        ... on Todo {
-          id
-          title
-          content
-          completed
-          dueDate
-          authorId
-          createdAt
-          updatedAt
-        }
-        ... on Error {
-          message
-        }
+    ${FRAGMENTS.VALIDATION_ERROR}
+    ${FRAGMENTS.NOT_FOUND_ERROR}
+    ${FRAGMENTS.SERVER_ERROR}
+    ${FRAGMENTS.CONFLICT_ERROR}
+    ${FRAGMENTS.UNAUTHORIZED_ERROR}
+
+  mutation Create_Todo($todo: TodoCreateInput!) {
+    createTodo(todo: $todo) {
+      ... on Todo {
+        id
+        title
+        content
+        completed
+        dueDate
+        createdAt
+        updatedAt
+      }
+      ... on ValidationError {
+        ...ValidationErrorFragment
+      }
+      ... on NotFoundError {
+        ...NotFoundErrorFragment
+      }
+      ... on ServerError {
+        ...ServerErrorFragment
+      }
+      ... on ConflictError {
+        ...ConflictErrorFragment
       }
     }
+  }
   `,
 
   UPDATE_TODO: `

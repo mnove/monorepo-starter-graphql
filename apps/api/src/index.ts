@@ -174,7 +174,7 @@ app.route({
     const session = await auth.api.getSession({
       headers,
     });
-    // console.log("session", session, "headers", headers);
+    console.log("____session", session, "headers", headers);
 
     // Second parameter adds Fastify's `req` and `reply` to the GraphQL Context
     const response = await yoga.handleNodeRequestAndResponse(req, reply, {

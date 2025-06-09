@@ -1,6 +1,6 @@
 import fastify, { FastifyInstance } from "fastify";
 import { createYoga } from "graphql-yoga";
-import { envelopPlugins } from "@/envelopPlugins";
+import { createEnvelopPlugins } from "@/envelopPlugins";
 import { GraphQLServerContext } from "@/context";
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
@@ -29,10 +29,21 @@ export function createTestServer(prisma: PrismaClient) {
     emailAndPassword: {
       enabled: true,
     },
+    advanced: {
+      defaultCookieAttributes: {
+        secure: false, // Allow HTTP in test environment
+        httpOnly: true,
+        sameSite: "lax", // Less restrictive for testing
+        partitioned: false, // Disable for test environment
+      },
+    },
   });
 
+  // Create envelop plugins with the test Prisma client
+  const testEnvelopPlugins = createEnvelopPlugins(prisma);
+
   const yoga = createYoga<GraphQLServerContext>({
-    plugins: envelopPlugins,
+    plugins: testEnvelopPlugins,
     graphiql: false,
     logging: false,
   });
@@ -105,19 +116,14 @@ export function createTestServer(prisma: PrismaClient) {
         // Session extraction failed, continue with null user
       }
 
-      const context: GraphQLServerContext = {
-        prisma,
+      // Pass context data in the same format as main server
+      // This allows envelop plugins to process the context correctly
+      const response = await yoga.handleNodeRequestAndResponse(req, reply, {
+        req,
+        reply,
         user: normalizeAuthUser(sessionData?.user),
         session: normalizeAuthSession(sessionData?.session),
-        req,
-        reply,
-      };
-
-      const response = await yoga.handleNodeRequestAndResponse(
-        req,
-        reply,
-        context
-      );
+      });
 
       response.headers.forEach((value, key) => {
         reply.header(key, value);
