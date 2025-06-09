@@ -10,12 +10,21 @@ import {
 export const createValidationError = (
   error: ZodError
 ): ValidationError & { __typename: "ValidationError" } => {
-  const firstIssue = error.issues[0];
+  const issues = error.issues;
+  const firstIssue = issues[0];
+
   return {
     __typename: "ValidationError" as const,
-    message: firstIssue?.message || "Validation error",
+    message:
+      issues.length === 1
+        ? firstIssue?.message || "Validation error"
+        : `${issues.length} validation errors occurred`,
     code: "VALIDATION_ERROR",
     field: firstIssue?.path.join(".") || undefined,
+    fields: issues.map((issue) => ({
+      field: issue.path.join(".") || "unknown",
+      message: issue.message,
+    })),
   };
 };
 

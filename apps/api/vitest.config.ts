@@ -11,7 +11,7 @@ export default defineConfig({
       BETTER_AUTH_SECRET: "test-secret-key",
       BASE_SERVER_URL: "http://localhost:5001",
     },
-    setupFiles: ["./src/test/setup.ts"],
+    setupFiles: ["./src/tests/setup.ts"],
     testTimeout: 30000,
     hookTimeout: 30000,
     pool: "threads",
@@ -21,17 +21,17 @@ export default defineConfig({
       },
     },
     // Only include test files
-    include: ["src/test/**/*.test.ts", "src/test/**/*.spec.ts"],
+    include: ["src/tests/**/*.test.ts", "src/tests/**/*.spec.ts"],
     // Exclude other files
     exclude: [
       "node_modules",
       "dist",
-      "src/test/helpers/**",
-      "src/test/setup.ts",
-      "src/test/category.test.ts",
-      "src/test/integration.test.ts",
-      // "src/test/todo.test.ts",
-      "src/test/auth.test.ts",
+      "src/tests/helpers/**",
+      "src/tests/setup.ts",
+      "src/tests/category.test.ts",
+      "src/tests/integration.test.ts",
+      // "src/tests/todo.test.ts",
+      "src/tests/auth.test.ts",
     ],
   },
   resolve: {

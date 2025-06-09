@@ -124,6 +124,7 @@ type ErrorResponse = {
   message?: string;
   code?: string;
   field?: string | null;
+  fields?: Array<{ field: string; message: string }>;
   resourceId?: string;
   resourceType?: string;
   details?: string | null;
@@ -135,6 +136,7 @@ type ErrorResponse = {
 interface ValidationErrorResponse extends ErrorResponse {
   __typename: GraphQLErrorType.ValidationError;
   field: string | null;
+  fields: Array<{ field: string; message: string }>;
 }
 
 interface NotFoundErrorResponse extends ErrorResponse {

@@ -129,6 +129,12 @@ importers:
         specifier: 'catalog:'
         version: 3.24.4
     devDependencies:
+      '@graphql-codegen/cli':
+        specifier: ^5.0.7
+        version: 5.0.7(@parcel/watcher@2.5.1)(@types/node@22.15.29)(graphql@16.11.0)(typescript@5.8.2)
+      '@graphql-codegen/client-preset':
+        specifier: ^4.8.2
+        version: 4.8.2(graphql@16.11.0)
       '@graphql-inspector/cli':
         specifier: ^5.0.8
         version: 5.0.8(@types/node@22.15.29)(graphql@16.11.0)

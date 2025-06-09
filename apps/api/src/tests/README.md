@@ -268,7 +268,7 @@ psql postgresql://test_user:test_password@localhost:5433/test_db
 Run specific test files:
 
 ```bash
-npx vitest run src/test/auth.test.ts
+npx vitest run src/tests/auth.test.ts
 ```
 
 ### Enable Debug Logs

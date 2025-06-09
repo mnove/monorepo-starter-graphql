@@ -7,7 +7,8 @@ type Properties<T> = Required<{
 
 export const TodoCreateInputSchema = z.object<Properties<TodoCreateInput>>({
   title: z.string().min(1, { message: "Title is required" }),
-  content: z.string().optional(),
+  //content: z.string().optional(),
+  content: z.string().min(1, { message: "Content is required" }),
   completed: z.boolean().optional(),
   dueDate: z.date().optional(),
   categoryIds: z.array(z.string().nanoid()).optional(),

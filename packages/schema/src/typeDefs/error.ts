@@ -4,10 +4,16 @@ export const errorTypeDefs = /* GraphQL */ `
     code: String!
   }
 
+  type ValidationFieldError {
+    field: String!
+    message: String!
+  }
+
   type ValidationError implements Error {
     message: String!
     code: String!
     field: String
+    fields: [ValidationFieldError!]!
   }
 
   type NotFoundError implements Error {

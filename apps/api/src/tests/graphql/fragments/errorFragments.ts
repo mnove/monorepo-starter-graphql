@@ -1,7 +1,8 @@
-import { gql } from "@/generated";
+import { gql } from "../../generated/gql";
 
 export const ERROR_FRAGMENTS = gql(/* GraphQL */ `
   fragment ValidationErrorFragment on ValidationError {
+    __typename
     message
     code
     field

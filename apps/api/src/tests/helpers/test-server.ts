@@ -1,12 +1,12 @@
 import fastify, { FastifyInstance } from "fastify";
 import { createYoga } from "graphql-yoga";
-import { createEnvelopPlugins } from "@/envelopPlugins";
-import { GraphQLServerContext } from "@/context";
+import { createEnvelopPlugins } from "../../envelopPlugins";
+import { GraphQLServerContext } from "../../context";
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { PrismaClient } from "@repo/database";
 import fastifyCors from "@fastify/cors";
-import { normalizeAuthSession, normalizeAuthUser } from "@/utils/normalize";
+import { normalizeAuthSession, normalizeAuthUser } from "../../utils/normalize";
 
 export function createTestServer(prisma: PrismaClient) {
   const app = fastify({

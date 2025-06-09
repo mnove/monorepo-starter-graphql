@@ -1,0 +1,14 @@
+// Build specific TypeScript configuration file.
+// It extends the base tsconfig.json and excludes test files from the build process.
+// This also allows for the main tsconfig.json to remain simple and provide type checking for the entire project, including tests.
+
+{
+  "extends": "./tsconfig.json",
+  "exclude": [
+    "node_modules",
+    "dist",
+    "src/tests/**/*",
+    "**/*.test.ts",
+    "**/*.spec.ts"
+  ]
+}

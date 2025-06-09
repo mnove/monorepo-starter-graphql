@@ -4,6 +4,10 @@ export const FRAGMENTS = {
       message
       code
       field
+      fields {
+        field
+        message
+      }
     }
   `,
 
