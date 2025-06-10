@@ -364,115 +364,115 @@ describe("Todo Integration Tests", () => {
   });
 
   // TODO User Isolation Tests
-  // describe("User Isolation", () => {
-  //   let user1SessionCookie: string;
-  //   let user2SessionCookie: string;
-  //   let user1Id: string;
-  //   let user2Id: string;
+  describe("User Isolation", () => {
+    let user1SessionCookie: string;
+    let user2SessionCookie: string;
+    let user1Id: string;
+    let user2Id: string;
 
-  //   beforeEach(async () => {
-  //     const user1 = await authHelper.createAuthenticatedUser({
-  //       email: "user1@example.com",
-  //       name: "User One",
-  //     });
+    beforeEach(async () => {
+      const user1 = await authHelper.createAuthenticatedUser({
+        email: "user1@example.com",
+        name: "User One",
+      });
 
-  //     const user2 = await authHelper.createAuthenticatedUser({
-  //       email: "user2@example.com",
-  //       name: "User Two",
-  //     });
+      const user2 = await authHelper.createAuthenticatedUser({
+        email: "user2@example.com",
+        name: "User Two",
+      });
 
-  //     user1SessionCookie = user1.sessionCookie;
-  //     user2SessionCookie = user2.sessionCookie;
-  //     user1Id = user1.user.id;
-  //     user2Id = user2.user.id;
-  //   });
+      user1SessionCookie = user1.sessionCookie;
+      user2SessionCookie = user2.sessionCookie;
+      user1Id = user1.user.id;
+      user2Id = user2.user.id;
+    });
 
-  //   it("should isolate todos between users", async () => {
-  //     // User 1 creates todos
-  //     await dataFactory.createMultipleTodos(user1Id, 2, {
-  //       title: "User 1 Todo",
-  //     });
+    it("should isolate todos between users", async () => {
+      // User 1 creates todos
+      await dataFactory.createMultipleTodos(user1Id, 2, {
+        title: "User 1 Todo",
+      });
 
-  //     // User 2 creates todos
-  //     await dataFactory.createMultipleTodos(user2Id, 3, {
-  //       title: "User 2 Todo",
-  //     });
+      // User 2 creates todos
+      await dataFactory.createMultipleTodos(user2Id, 3, {
+        title: "User 2 Todo",
+      });
 
-  //     // User 1 should only see their todos
-  //     const user1Result = await client.authenticatedQuery(
-  //       GET_TODOS,
-  //       user1SessionCookie
-  //     );
+      // User 1 should only see their todos
+      const user1Result = await client.authenticatedQuery(
+        GET_TODOS,
+        user1SessionCookie
+      );
 
-  //     expect(client.hasErrors(user1Result)).toBe(false);
-  //     const user1Data = client.getData(user1Result);
-  //     if (user1Data?.todos.__typename !== "TodoListResult") {
-  //       throw new Error("Expected todos to return a TodoListResult type");
-  //     }
-  //     expect(user1Data.todos.connection?.edges).toHaveLength(2);
-  //     user1Data.todos.connection?.edges.forEach((edge: any) => {
-  //       expect(edge.node.title).toContain("User 1 Todo");
-  //     });
+      expect(client.hasErrors(user1Result)).toBe(false);
+      const user1Data = client.getData(user1Result);
+      if (user1Data?.todos.__typename !== "TodoListResult") {
+        throw new Error("Expected todos to return a TodoListResult type");
+      }
+      expect(user1Data.todos.connection?.edges).toHaveLength(2);
+      user1Data.todos.connection?.edges.forEach((edge: any) => {
+        expect(edge.node.title).toContain("User 1 Todo");
+      });
 
-  //     // User 2 should only see their todos
-  //     const user2Result = await client.authenticatedQuery(
-  //       GET_TODOS,
-  //       user2SessionCookie
-  //     );
+      // User 2 should only see their todos
+      const user2Result = await client.authenticatedQuery(
+        GET_TODOS,
+        user2SessionCookie
+      );
 
-  //     expect(client.hasErrors(user2Result)).toBe(false);
-  //     const user2Data = client.getData(user2Result);
-  //     if (user2Data?.todos.__typename !== "TodoListResult") {
-  //       throw new Error("Expected todos to return a TodoListResult type");
-  //     }
-  //     expect(user2Data.todos.connection?.edges).toHaveLength(3);
-  //     user2Data.todos.connection?.edges.forEach((edge: any) => {
-  //       expect(edge.node.title).toContain("User 2 Todo");
-  //     });
-  //   });
+      expect(client.hasErrors(user2Result)).toBe(false);
+      const user2Data = client.getData(user2Result);
+      if (user2Data?.todos.__typename !== "TodoListResult") {
+        throw new Error("Expected todos to return a TodoListResult type");
+      }
+      expect(user2Data.todos.connection?.edges).toHaveLength(3);
+      user2Data.todos.connection?.edges.forEach((edge: any) => {
+        expect(edge.node.title).toContain("User 2 Todo");
+      });
+    });
 
-  //   it("should prevent users from accessing other users todos", async () => {
-  //     // User 1 creates a todo
-  //     const user1Todo = await dataFactory.createTodo(user1Id, {
-  //       title: "Private Todo",
-  //     });
+    it("should prevent users from accessing other users todos", async () => {
+      // User 1 creates a todo
+      const user1Todo = await dataFactory.createTodo(user1Id, {
+        title: "Private Todo",
+      });
 
-  //     // User 2 tries to access User 1's todo
-  //     const result = await client.authenticatedQuery(
-  //       GET_TODO_BY_ID,
-  //       user2SessionCookie,
-  //       { todoByIdId: user1Todo.id }
-  //     );
+      // User 2 tries to access User 1's todo
+      const result = await client.authenticatedQuery(
+        GET_TODO_BY_ID,
+        user2SessionCookie,
+        { todoByIdId: user1Todo.id }
+      );
 
-  //     expect(client.hasErrors(result)).toBe(true);
-  //     const data = client.getData(result);
-  //     if (data?.todoById.__typename !== "NotFoundError") {
-  //       throw new Error("Expected todoById to return a NotFoundError type");
-  //     }
-  //     expect(data.todoById.__typename).toBe("NotFoundError");
-  //   });
+      expect(client.hasErrors(result)).toBe(true);
+      const data = client.getData(result);
+      if (data?.todoById.__typename !== "NotFoundError") {
+        throw new Error("Expected todoById to return a NotFoundError type");
+      }
+      expect(data.todoById.__typename).toBe("NotFoundError");
+    });
 
-  //   it("should prevent users from updating other users todos", async () => {
-  //     // User 1 creates a todo
-  //     const user1Todo = await dataFactory.createTodo(user1Id, {
-  //       title: "Original Title",
-  //     });
+    it("should prevent users from updating other users todos", async () => {
+      // User 1 creates a todo
+      const user1Todo = await dataFactory.createTodo(user1Id, {
+        title: "Original Title",
+      });
 
-  //     // User 2 tries to update User 1's todo
-  //     const result = await client.authenticatedMutation(
-  //       UPDATE_TODO,
-  //       user2SessionCookie,
-  //       {
-  //         todo: { id: user1Todo.id, title: "Hacked Title" },
-  //       }
-  //     );
+      // User 2 tries to update User 1's todo
+      const result = await client.authenticatedMutation(
+        UPDATE_TODO,
+        user2SessionCookie,
+        {
+          todo: { id: user1Todo.id, title: "Hacked Title" },
+        }
+      );
 
-  //     expect(client.hasErrors(result)).toBe(true);
-  //     const data = client.getData(result);
-  //     if (data?.updateTodo.__typename !== "NotFoundError") {
-  //       throw new Error("Expected updateTodo to return a NotFoundError type");
-  //     }
-  //     expect(data.updateTodo.__typename).toBe("NotFoundError");
-  //   });
-  // });
+      expect(client.hasErrors(result)).toBe(true);
+      const data = client.getData(result);
+      if (data?.updateTodo.__typename !== "NotFoundError") {
+        throw new Error("Expected updateTodo to return a NotFoundError type");
+      }
+      expect(data.updateTodo.__typename).toBe("NotFoundError");
+    });
+  });
 });
