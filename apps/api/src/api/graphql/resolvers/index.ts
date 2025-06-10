@@ -7,11 +7,13 @@ import {
 import { DateTimeResolver } from "graphql-scalars";
 import { Resolvers } from "@repo/schema";
 import { GraphQLServerContext } from "@/context";
+import { UserQueries } from "./user";
 
 export const resolvers: Resolvers = {
   Query: {
     ...TodoQueries,
     ...CategoryQueries,
+    ...UserQueries,
   },
   Mutation: {
     ...TodoMutations,
@@ -24,6 +26,7 @@ export const resolvers: Resolvers = {
   Category: {
     ...CategoryFieldResolvers,
   },
+
   DateTime: DateTimeResolver, // Custom scalar resolver for DateTime
 
   // Add type resolvers for the TodoResult union type
@@ -82,6 +85,18 @@ export const resolvers: Resolvers = {
       }
       throw new Error(
         "Could not resolve type for CategoryDeleteResult: __typename is missing"
+      );
+    },
+  },
+
+  // Add type resolvers for the CategoryResult union type
+  UserResult: {
+    __resolveType(obj) {
+      if ("__typename" in obj && typeof obj.__typename === "string") {
+        return obj.__typename;
+      }
+      throw new Error(
+        "Could not resolve type for UserResult: __typename is missing"
       );
     },
   },

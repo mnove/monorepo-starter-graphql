@@ -5,6 +5,7 @@ import { commonTypeDefs } from "./typeDefs/common";
 import { errorTypeDefs } from "./typeDefs/error";
 import { scalarsTypeDefs } from "./typeDefs/scalars";
 import { todosTypeDefs } from "./typeDefs/todo";
+import { userTypeDefs } from "./typeDefs/user";
 
 // This file is used to merge all GraphQL type definitions into a single schema.
 const typesArray = [
@@ -13,6 +14,7 @@ const typesArray = [
   errorTypeDefs,
   scalarsTypeDefs,
   todosTypeDefs,
+  userTypeDefs,
 ];
 
 export * from "./typeDefs/category";
@@ -20,6 +22,7 @@ export * from "./typeDefs/common";
 export * from "./typeDefs/error";
 export * from "./typeDefs/scalars";
 export * from "./typeDefs/todo";
+export * from "./typeDefs/user";
 
 // Generated graphql types
 export * from "../generated/graphql";

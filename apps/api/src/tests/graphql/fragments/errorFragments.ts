@@ -1,7 +1,8 @@
-import { gql } from "@/generated";
+import { gql } from "../../generated/gql";
 
 export const ERROR_FRAGMENTS = gql(/* GraphQL */ `
   fragment ValidationErrorFragment on ValidationError {
+    __typename
     message
     code
     field
@@ -12,6 +13,7 @@ export const ERROR_FRAGMENTS = gql(/* GraphQL */ `
   }
 
   fragment NotFoundErrorFragment on NotFoundError {
+    __typename
     message
     code
     resourceId
@@ -19,18 +21,21 @@ export const ERROR_FRAGMENTS = gql(/* GraphQL */ `
   }
 
   fragment ServerErrorFragment on ServerError {
+    __typename
     message
     code
     details
   }
 
   fragment ConflictErrorFragment on ConflictError {
+    __typename
     message
     code
     conflictingField
   }
 
   fragment UnauthorizedErrorFragment on UnauthorizedError {
+    __typename
     message
     code
     operation
