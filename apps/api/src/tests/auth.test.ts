@@ -1,10 +1,10 @@
-import { beforeAll, afterAll, beforeEach, describe, it, expect } from "vitest";
 import { FastifyInstance } from "fastify";
-import { createTestServer } from "./helpers/test-server";
-import { TestDatabase } from "./helpers/test-database";
+import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
 import { AuthTestHelper } from "./helpers/auth-helper";
 import { GraphQLTestClient } from "./helpers/graphql-client";
 import { AUTH_QUERIES } from "./helpers/graphql-queries";
+import { TestDatabase } from "./helpers/test-database";
+import { createTestServer } from "./helpers/test-server";
 
 describe("Authentication Integration Tests", () => {
   let testDb: TestDatabase;
@@ -237,7 +237,8 @@ describe("Authentication Integration Tests", () => {
       client.setAuth(sessionCookie);
 
       const profileResult = await client.query(AUTH_QUERIES.GET_ME);
-      expect(client.hasErrors(profileResult)).toBe(undefined);
+
+      expect(client.hasErrors(profileResult)).toBe(false);
 
       const profileData = client.getData(profileResult);
       expect(profileData.viewer.email).toBe("session@example.com");
@@ -259,7 +260,7 @@ describe("Authentication Integration Tests", () => {
       );
 
       expect(result1.status).toBe(200);
-      expect(client.hasErrors(result1)).toBe(undefined);
+      expect(client.hasErrors(result1)).toBe(false);
 
       const data1 = client.getData(result1);
       expect(data1.viewer.email).toBe("persistent@example.com");
@@ -270,7 +271,7 @@ describe("Authentication Integration Tests", () => {
         sessionCookie
       );
       expect(result2.status).toBe(200);
-      expect(client.hasErrors(result2)).toBe(undefined);
+      expect(client.hasErrors(result2)).toBe(false);
 
       const data2 = client.getData(result2);
       expect(data2.viewer.email).toBe("persistent@example.com");

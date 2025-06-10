@@ -20,6 +20,9 @@ export default defineConfig({
         singleThread: true, // Run tests sequentially to avoid DB conflicts
       },
     },
+    // coverage: {
+    //   reporter: ["text", "json", "html"],
+    // },
     // Only include test files
     include: ["src/tests/**/*.test.ts", "src/tests/**/*.spec.ts"],
     // Exclude other files
@@ -28,10 +31,10 @@ export default defineConfig({
       "dist",
       "src/tests/helpers/**",
       "src/tests/setup.ts",
-      "src/tests/category.test.ts",
-      "src/tests/integration.test.ts",
+      // "src/tests/category.test.ts",
+      // "src/tests/integration.test.ts",
       // "src/tests/todo.test.ts",
-      "src/tests/auth.test.ts",
+      // "src/tests/auth.test.ts",
     ],
   },
   resolve: {

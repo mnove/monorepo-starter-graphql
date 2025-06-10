@@ -1,35 +1,5 @@
 import { gql } from "../../generated/gql";
 
-// export const GET_TODOS = gql(/* GraphQL */ `
-//   query GET_TODOS {
-//     todos {
-//       items {
-//         id
-//         title
-//         content
-//         completed
-//         dueDate
-//         createdAt
-//         updatedAt
-//         categories {
-//           id
-//           name
-//           color
-//         }
-//       }
-//       totalCount
-//       error {
-//         ...ErrorFragment
-//         ... on UnauthorizedError {
-//           message
-//           code
-//           operation
-//         }
-//       }
-//     }
-//   }
-// `);
-
 export const GET_TODOS = gql(/* GraphQL */ `
   query GET_TODOS(
     $first: Int
@@ -45,6 +15,7 @@ export const GET_TODOS = gql(/* GraphQL */ `
       before: $before
       filter: $filter
     ) {
+      __typename
       connection {
         edges {
           cursor
@@ -107,6 +78,7 @@ export const GET_TODO_BY_ID = gql(/* GraphQL */ `
   query GET_TODO_BY_ID($todoByIdId: ID!) {
     todoById(id: $todoByIdId) {
       ... on Todo {
+        __typename
         id
         title
         content

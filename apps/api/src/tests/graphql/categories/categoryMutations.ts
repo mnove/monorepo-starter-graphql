@@ -1,15 +1,14 @@
 import { gql } from "../../generated/gql";
 
-export const CREATE_TODO = gql(/* GraphQL */ `
-  mutation CREATE_TODO($todo: TodoCreateInput!) {
-    createTodo(todo: $todo) {
-      ... on Todo {
+export const CREATE_CATEGORY = gql(/* GraphQL */ `
+  mutation CREATE_CATEGORY($category: CategoryCreateInput!) {
+    createCategory(category: $category) {
+      ... on Category {
         __typename
         id
-        title
-        content
-        completed
-        dueDate
+        name
+        description
+        color
         createdAt
         updatedAt
       }
@@ -25,20 +24,50 @@ export const CREATE_TODO = gql(/* GraphQL */ `
       ... on ConflictError {
         ...ConflictErrorFragment
       }
+      ... on UnauthorizedError {
+        ...UnauthorizedErrorFragment
+      }
     }
   }
 `);
 
-export const DELETE_TODO = gql(/* GraphQL */ `
-  mutation DELETE_TODO($id: ID!) {
-    deleteTodo(id: $id) {
-      ... on Todo {
+export const DELETE_CATEGORY = gql(/* GraphQL */ `
+  mutation DELETE_CATEGORY($deleteCategoryId: ID!) {
+    deleteCategory(id: $deleteCategoryId) {
+      ... on Category {
         __typename
         id
-        title
-        content
-        completed
-        dueDate
+        name
+        description
+        color
+        createdAt
+        updatedAt
+      }
+      ... on ValidationError {
+        ...ValidationErrorFragment
+      }
+      ... on NotFoundError {
+        ...NotFoundErrorFragment
+      }
+      ... on UnauthorizedError {
+        ...UnauthorizedErrorFragment
+      }
+      ... on ServerError {
+        ...ServerErrorFragment
+      }
+    }
+  }
+`);
+
+export const BULK_DELETE_CATEGORIES = gql(/* GraphQL */ `
+  mutation BULK_DELETE_CATEGORIES($ids: [ID!]!) {
+    bulkDeleteCategories(ids: $ids) {
+      ... on Category {
+        __typename
+        id
+        name
+        description
+        color
         createdAt
         updatedAt
       }
@@ -51,51 +80,19 @@ export const DELETE_TODO = gql(/* GraphQL */ `
       ... on ServerError {
         ...ServerErrorFragment
       }
-      ... on UnauthorizedError {
-        ...UnauthorizedErrorFragment
-      }
     }
   }
 `);
 
-export const BULK_DELETE_TODOS = gql(/* GraphQL */ `
-  mutation BULK_DELETE_TODOS($ids: [ID!]!) {
-    bulkDeleteTodos(ids: $ids) {
-      ... on Todo {
+export const UPDATE_CATEGORY = gql(/* GraphQL */ `
+  mutation UPDATE_CATEGORY($category: CategoryUpdateInput!) {
+    updateCategory(category: $category) {
+      ... on Category {
         __typename
         id
-        title
-        content
-        completed
-        createdAt
-        updatedAt
-      }
-      ... on ValidationError {
-        ...ValidationErrorFragment
-      }
-      ... on NotFoundError {
-        ...NotFoundErrorFragment
-      }
-      ... on ServerError {
-        ...ServerErrorFragment
-      }
-      ... on UnauthorizedError {
-        ...UnauthorizedErrorFragment
-      }
-    }
-  }
-`);
-
-export const UPDATE_TODO = gql(/* GraphQL */ `
-  mutation UPDATE_TODO($todo: TodoUpdateInput!) {
-    updateTodo(todo: $todo) {
-      ... on Todo {
-        __typename
-        id
-        title
-        content
-        completed
-        dueDate
+        name
+        description
+        color
         createdAt
         updatedAt
       }
