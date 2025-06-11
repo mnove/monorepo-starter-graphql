@@ -1,48 +1,25 @@
-<div align="center">
-  <p>
-    <a href="https://maizzle.com" target="_blank">
-      <picture>
-        <source media="(prefers-color-scheme: dark)" srcset="https://github.com/maizzle/maizzle/raw/master/.github/logo-dark.svg">
-        <img alt="Maizzle Starter" src="https://github.com/maizzle/maizzle/raw/master/.github/logo-light.svg" width="300" height="225" style="max-width: 100%;">
-      </picture>
-    </a>
-  </p>
-  <p>Quickly build HTML emails with Tailwind CSS</p>
-<div>
+## Emails
 
-  [![Version][npm-version-shield]][npm]
-  [![Build][github-ci-shield]][github-ci]
-  [![Downloads][npm-stats-shield]][npm-stats]
-  [![License][license-shield]][license]
+This package provides a set of reusable email templates built with Maizzle framework and TypeScript functions for rendering them with variable substitution. It includes transactional emails like user verification, password reset, and user invitations.
 
-  </div>
-</div>
+## Structure
 
-## Getting Started
+- **Email templates** are defined using HTML files in the `emails/` directory with Maizzle framework syntax
+- **Layouts** are reusable structures in the `layouts/` directory (transactional, report, main)
+- **Components** are reusable UI elements in the `components/` directory (button, spacer, footer, etc.)
+- **TypeScript functions** in `src/index.ts` provide type-safe email rendering with variable substitution
+- **Build output** generates both HTML and TXT versions in the `build_production/` directory
 
-Run this command and follow the prompts:
+## Build Process
 
-```bash
-npx create-maizzle
-```
+The build process consists of two steps:
 
-## Documentation
+1. **Maizzle build** - Compiles HTML templates with Tailwind CSS, inlines styles, and generates both HTML and TXT versions
+2. **TypeScript build** - Compiles the TypeScript functions for template rendering with proper type definitions
 
-Maizzle documentation is available at https://maizzle.com
+## Notes
 
-## Issues
-
-Please open all issues in the [framework repository](https://github.com/maizzle/framework).
-
-## License
-
-The Maizzle framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-
-[npm]: https://www.npmjs.com/package/@maizzle/framework
-[npm-stats]: https://npm-stat.com/charts.html?package=%40maizzle%2Fframework&from=2019-03-27
-[npm-version-shield]: https://img.shields.io/npm/v/@maizzle/framework.svg
-[npm-stats-shield]: https://img.shields.io/npm/dt/@maizzle/framework.svg?color=6875f5
-[github-ci]: https://github.com/maizzle/framework/actions
-[github-ci-shield]: https://github.com/maizzle/framework/actions/workflows/nodejs.yml/badge.svg
-[license]: ./LICENSE
-[license-shield]: https://img.shields.io/npm/l/@maizzle/framework.svg?color=0e9f6e
+- Templates use `@{{ variableName }}` syntax for variable placeholders that get replaced by TypeScript functions
+- Both HTML and TXT versions are automatically generated for all templates
+- The package exports both development (TypeScript) and production (compiled) entry points
+- CSS is inlined and purged in production builds for maximum email client compatibility
