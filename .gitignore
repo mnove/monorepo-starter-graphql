@@ -8,6 +8,10 @@ dist-ssr
 *.local
 .env
 .env.*
+# Keep example files
+!.env.example
+!.env.test.example
+!.env.*.example
 .cache
 server/dist
 public/dist

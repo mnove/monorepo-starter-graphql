@@ -1,5 +1,5 @@
 {
-  "name": "kitchen-sink",
+  "name": "monorepo-fullstack-starter",
   "private": true,
   "scripts": {
     "build": "turbo run build",
@@ -13,10 +13,13 @@
     "check-types": "turbo run check-types",
     "docker:dev": "docker compose up",
     "docker:prod": "docker compose -f docker-compose.prod.yml up -d",
+    "docker:prod:down": "docker compose -f docker-compose.prod.yml down",
     "docker:test": "docker compose -f docker-compose.test.yml up -d"
   },
   "devDependencies": {
+    "@types/node": "catalog:",
     "prettier": "^3.5.3",
+    "tsx": "^4.20.1",
     "turbo": "^2.5.3"
   },
   "packageManager": "pnpm@10.10.0",
