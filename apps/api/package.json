@@ -5,7 +5,7 @@
   "scripts": {
     "build": "pnpm run clean && tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
     "clean": "rm -rf dist",
-    "dev": "NODE_ENV=development nodemon --exec \"node --env-file .env  -r esbuild-register ./src/index.ts\" -e .ts ",
+    "dev": "NODE_ENV=development tsx watch --conditions=development --env-file .env ./src/index.ts",
     "lint": "tsc --noEmit && eslint \"src/**/*.ts*\" --max-warnings 0",
     "start": "node -r esbuild-register ./src/index.ts",
     "test": "DATABASE_URL=postgresql://test:test@localhost:5433/test?schema=public vitest run",
@@ -64,9 +64,9 @@
     "esbuild-register": "^3.5.0",
     "eslint": "^9.27.0",
     "fs-extra": "^11.3.0",
-    "nodemon": "^3.1.0",
     "supertest": "^6.3.3",
     "tsc-alias": "^1.8.16",
+    "tsx": "catalog:",
     "typescript": "catalog:",
     "vitest": "^2.1.8"
   }

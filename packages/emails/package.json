@@ -3,6 +3,14 @@
   "private": true,
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "development": "./src/index.ts",
+      "types": "./src/index.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
   "files": [
     "build_production/**/*",
     "dist/**/*"
@@ -10,16 +18,17 @@
   "scripts": {
     "dev": "maizzle serve",
     "build:maizzle": "maizzle build production",
-    "build:ts": "tsc",
+    "build:ts": "tsup src/index.ts --format cjs,esm --dts",
     "build": "npm run build:maizzle && npm run build:ts",
     "type-check": "tsc --noEmit"
   },
   "devDependencies": {
     "@maizzle/framework": "5.0.1",
-    "@types/node": "^20.0.0",
+    "@types/node": "catalog:",
     "tailwindcss": "^3.4.17",
     "tailwindcss-mso": "^2.0.2",
     "tailwindcss-preset-email": "latest",
-    "typescript": "^5.0.0"
+    "tsup": "catalog:",
+    "typescript": "catalog:"
   }
 }
