@@ -18,3 +18,8 @@ public/dist
 pg-data
 
 test_2_pg_data
+
+pg-data-*
+pg-data-dev
+pg-data-test
+pg-data-prod

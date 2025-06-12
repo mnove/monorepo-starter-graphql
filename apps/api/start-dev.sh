@@ -1,6 +1,9 @@
 #!/bin/sh
 # Development startup script for API
-# Regenerates Prisma client for Linux platform and starts the API in watch mode
+# Runs database migrations, regenerates Prisma client for Linux platform and starts the API in watch mode
+
+echo "Running database migrations..."
+cd /app/packages/database && pnpm run db:deploy
 
 echo "Regenerating Prisma client for Linux platform..."
 cd /app/packages/database && pnpm run db:generate

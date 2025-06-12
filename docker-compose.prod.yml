@@ -13,7 +13,8 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - pg_data_prod:/var/lib/postgresql/data # Use a named volume for production data
+      # - pg_data_prod:/var/lib/postgresql/data # Use a named volume for production data
+      - ./pg-data-prod/data:/var/lib/postgresql/data
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
@@ -73,7 +74,6 @@ services:
       migrations:
         condition: service_completed_successfully
     restart: unless-stopped
-
-volumes:
-  pg_data_prod: # Defines the named volume for PostgreSQL production data
-    driver: local
+# volumes:
+#   pg_data_prod: # Defines the named volume for PostgreSQL production data
+#     driver: local
