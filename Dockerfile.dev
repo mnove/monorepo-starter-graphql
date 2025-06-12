@@ -1,0 +1,64 @@
+# Development Dockerfile for API app
+# Optimized for development with hot reloading and file watching
+
+# ---- Base Stage ----
+FROM node:22-alpine AS base
+# Enable corepack for pnpm support
+RUN corepack enable
+# Install necessary packages for Prisma and node-gyp
+RUN apk add --no-cache libc6-compat openssl
+
+# ---- Development Stage ----
+FROM base AS development
+WORKDIR /app
+
+# Copy package files for dependency installation
+COPY package.json pnpm-workspace.yaml ./
+COPY pnpm-lock.yaml ./
+COPY apps/api/package.json ./apps/api/
+# Copy all package.json files from packages directory
+COPY packages/config-eslint/package.json ./packages/config-eslint/
+COPY packages/config-typescript/package.json ./packages/config-typescript/
+COPY packages/database/package.json ./packages/database/
+COPY packages/emails/package.json ./packages/emails/
+COPY packages/logger/package.json ./packages/logger/
+COPY packages/schema/package.json ./packages/schema/
+COPY packages/ui/package.json ./packages/ui/
+COPY packages/validation-schema/package.json ./packages/validation-schema/
+
+# Install all dependencies (including dev dependencies)
+RUN pnpm install --frozen-lockfile
+
+# Copy all source code
+COPY . .
+
+# Generate Prisma client initially
+RUN cd packages/database && pnpm run db:generate
+
+# Copy and set up the startup script
+COPY apps/api/start-dev.sh /app/start-dev.sh
+RUN chmod +x /app/start-dev.sh
+
+# Create non-root user for security
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 nodejs
+
+# Change ownership to nodejs user
+RUN chown -R nodejs:nodejs /app
+USER nodejs
+
+# Set working directory to apps/api
+WORKDIR /app/apps/api
+
+# Expose port
+EXPOSE 5001
+
+# Set NODE_ENV to development
+ENV NODE_ENV=development
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
+  CMD node -e "require('http').get('http://localhost:5001/healthcheck', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"
+
+# Start the application in development mode with file watching
+CMD ["/app/start-dev.sh"]

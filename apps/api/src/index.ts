@@ -1,22 +1,43 @@
 import { auth } from "@/lib/auth";
-import prisma from "@repo/database";
 import fastifyCompress from "@fastify/compress";
 import fastifyCors from "@fastify/cors";
 import fastifyHelmet from "@fastify/helmet";
+import prisma from "@repo/database";
 import fastify from "fastify";
 import { createYoga } from "graphql-yoga";
 import { serverConfig } from "./config/server-config";
 import { GraphQLServerContext } from "./context";
 import { envelopPlugins } from "./envelopPlugins";
-import { renderApolloStudio } from "./utils/render-studio";
 import { normalizeAuthSession, normalizeAuthUser } from "./utils/normalize";
+import { renderApolloStudio } from "./utils/render-studio";
+
+// Logger based on environment
+const envToLogger = {
+  development: {
+    transport: {
+      target: "pino-pretty",
+      options: {
+        translateTime: "HH:MM:ss Z",
+        ignore: "pid,hostname",
+        colorize: true,
+      },
+    },
+  },
+  production: true,
+  test: true,
+};
 
 const PORT = process.env.PORT || 5001;
 const GRAPHQL_ENDPOINT = process.env.GRAPHQL_ENDPOINT || "/graphql";
 const USE_APOLLO_STUDIO =
   process.env.USE_APOLLO_STUDIO === "false" ? false : true;
 
-const app = fastify({ logger: true });
+const app = fastify({
+  logger:
+    envToLogger[
+      (process.env.NODE_ENV as keyof typeof envToLogger) || "development"
+    ] ?? true, // defaults to true if no entry matches in the map
+});
 
 app.register(fastifyCors, {
   origin: [...serverConfig.trustedOrigins],
@@ -203,7 +224,8 @@ const start = async () => {
         host: "0.0.0.0",
       },
       () => {
-        console.log(
+        app.log.info(`Fastify server is running on ${serverConfig.baseURL}`);
+        app.log.info(
           `graphql server is running on ${serverConfig.baseURL}${GRAPHQL_ENDPOINT}`
         );
       }

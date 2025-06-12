@@ -20,3 +20,48 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+
+  api-dev:
+    container_name: api-dev
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "5001:5001"
+    environment:
+      - PORT=5001
+      - NODE_ENV=development
+      - DATABASE_URL=${DATABASE_URL}
+      - BASE_SERVER_URL=${BASE_SERVER_URL}
+      - CLIENT_URL=${CLIENT_URL}
+      - BETTER_AUTH_SECRET=${BETTER_AUTH_SECRET}
+      - BETTER_AUTH_CLIENT_URL=${BETTER_AUTH_CLIENT_URL}
+      - RESEND_API_KEY=${RESEND_API_KEY}
+    volumes:
+      # Mount source code for hot reloading
+      - ./apps/api/src:/app/apps/api/src:ro
+      # Mount packages source code but exclude generated files
+      - ./packages/config-eslint:/app/packages/config-eslint:ro
+      - ./packages/config-typescript:/app/packages/config-typescript:ro
+      - ./packages/database/src:/app/packages/database/src:ro
+      - ./packages/database/prisma:/app/packages/database/prisma:ro
+      - ./packages/database/package.json:/app/packages/database/package.json:ro
+      - ./packages/database/tsconfig.json:/app/packages/database/tsconfig.json:ro
+      - ./packages/emails:/app/packages/emails:ro
+      - ./packages/logger:/app/packages/logger:ro
+      - ./packages/schema:/app/packages/schema:ro
+      - ./packages/ui:/app/packages/ui:ro
+      - ./packages/validation-schema:/app/packages/validation-schema:ro
+      # Mount package.json files for dependency changes
+      - ./apps/api/package.json:/app/apps/api/package.json:ro
+      - ./package.json:/app/package.json:ro
+      - ./pnpm-workspace.yaml:/app/pnpm-workspace.yaml:ro
+      # Exclude node_modules and generated files from being mounted
+      - /app/node_modules
+      - /app/apps/api/node_modules
+      - /app/packages/database/generated
+      - /app/packages/database/node_modules
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
