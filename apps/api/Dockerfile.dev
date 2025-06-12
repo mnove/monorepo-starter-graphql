@@ -56,9 +56,9 @@ EXPOSE 5001
 # Set NODE_ENV to development
 ENV NODE_ENV=development
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
-  CMD node -e "require('http').get('http://localhost:5001/healthcheck', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"
+# Health check is commented out for development, can be enabled if needed
+# HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
+#   CMD node -e "require('http').get('http://localhost:5001/healthcheck', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"
 
 # Start the application in development mode with file watching
 CMD ["/app/start-dev.sh"]

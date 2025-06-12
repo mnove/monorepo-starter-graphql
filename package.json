@@ -11,10 +11,13 @@
     "test:api": "pnpm --filter api test:full",
     "test:api:watch": "pnpm --filter api test:watch",
     "check-types": "turbo run check-types",
-    "docker:dev": "docker compose up",
+    "docker:dev": "docker compose -f docker-compose.dev.yml up",
+    "docker:dev:down": "docker compose -f docker-compose.dev.yml down",
     "docker:prod": "docker compose -f docker-compose.prod.yml up -d",
     "docker:prod:down": "docker compose -f docker-compose.prod.yml down",
-    "docker:test": "docker compose -f docker-compose.test.yml up -d"
+    "docker:test": "docker compose -f docker-compose.test.yml up -d",
+    "docker:test:down": "docker compose -f docker-compose.test.yml down",
+    "setup": "tsx scripts/setup.ts"
   },
   "devDependencies": {
     "@types/node": "catalog:",

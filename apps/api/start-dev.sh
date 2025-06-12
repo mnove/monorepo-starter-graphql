@@ -7,4 +7,4 @@ cd /app/packages/database && pnpm run db:generate
 
 echo "Starting API in development mode..."
 cd /app/apps/api
-exec pnpm dev
+exec pnpm dev:docker

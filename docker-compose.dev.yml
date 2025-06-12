@@ -6,10 +6,12 @@ services:
   postgres:
     container_name: postgres-dev
     image: postgres:17.4
-    environment:
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_DB=${POSTGRES_DB}
+    env_file:
+      - ./apps/api/.env.dev
+    # environment:
+    #   - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    #   - POSTGRES_USER=${POSTGRES_USER}
+    #   - POSTGRES_DB=${POSTGRES_DB}
     ports:
       - "5432:5432"
     volumes:
@@ -25,18 +27,20 @@ services:
     container_name: api-dev
     build:
       context: .
-      dockerfile: Dockerfile.dev
+      dockerfile: ./apps/api/Dockerfile.dev
     ports:
       - "5001:5001"
+    env_file:
+      - ./apps/api/.env.dev
     environment:
-      - PORT=5001
+      # - PORT=5001
       - NODE_ENV=development
-      - DATABASE_URL=${DATABASE_URL}
-      - BASE_SERVER_URL=${BASE_SERVER_URL}
-      - CLIENT_URL=${CLIENT_URL}
-      - BETTER_AUTH_SECRET=${BETTER_AUTH_SECRET}
-      - BETTER_AUTH_CLIENT_URL=${BETTER_AUTH_CLIENT_URL}
-      - RESEND_API_KEY=${RESEND_API_KEY}
+      # - DATABASE_URL=${DATABASE_URL}
+      # - BASE_SERVER_URL=${BASE_SERVER_URL}
+      # - CLIENT_URL=${CLIENT_URL}
+      # - BETTER_AUTH_SECRET=${BETTER_AUTH_SECRET}
+      # - BETTER_AUTH_CLIENT_URL=${BETTER_AUTH_CLIENT_URL}
+      # - RESEND_API_KEY=${RESEND_API_KEY}
     volumes:
       # Mount source code for hot reloading
       - ./apps/api/src:/app/apps/api/src:ro

@@ -7,7 +7,7 @@ services:
     container_name: postgres-test
     image: postgres:17.4
     env_file:
-      - ./.env.test
+      - ./apps/api/.env.test
     environment:
       - POSTGRES_USER=test
       - POSTGRES_PASSWORD=test
@@ -30,7 +30,7 @@ services:
     volumes:
       - .:/app
     env_file:
-      - ./.env.test
+      - ./apps/api/.env.test
     environment:
       - DATABASE_URL=postgresql://test:test@postgres-test:5432/test
     command: sh -c "cd /app/packages/database && npx prisma migrate deploy"

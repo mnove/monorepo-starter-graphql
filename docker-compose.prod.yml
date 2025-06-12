@@ -4,10 +4,12 @@ services:
   postgres:
     container_name: postgres-prod
     image: postgres:17.4 # Consider using a specific stable version like postgres:16 for production
-    environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
+    env_file:
+      - ./apps/api/.env.prod # Load environment variables from the production .env file
+    # environment:
+    #   - POSTGRES_USER=${POSTGRES_USER}
+    #   - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    #   - POSTGRES_DB=${POSTGRES_DB}
     ports:
       - "5432:5432"
     volumes:
@@ -26,12 +28,14 @@ services:
     container_name: migrations-prod
     build:
       context: .
-      dockerfile: Dockerfile.prod
+      dockerfile: ./apps/api/Dockerfile.prod
     entrypoint: [] # Override the default entrypoint
     command: sh -c "cd /app/packages/database && npx prisma migrate deploy"
+    env_file:
+      - ./apps/api/.env.prod
     environment:
-      - DATABASE_URL=${DATABASE_URL}
-      - NODE_ENV=${NODE_ENV}
+      # - DATABASE_URL=${DATABASE_URL}
+      - NODE_ENV=production
     depends_on:
       postgres:
         condition: service_healthy
@@ -45,22 +49,24 @@ services:
     container_name: api-prod
     build:
       context: . # Build context is the root of the monorepo
-      dockerfile: Dockerfile.prod # Path to your API's Dockerfile
+      dockerfile: ./apps/api/Dockerfile.prod
     ports:
       # Maps port 5001 from the container to the host.
       # You can make the host port configurable via an environment variable if needed:
       # - "${API_HOST_PORT:-5001}:5001"
       - "5001:5001"
-    environment:
-      # - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?schema=public
-      - PORT=5001
-      - NODE_ENV=${NODE_ENV}
-      - BASE_SERVER_URL=${BASE_SERVER_URL}
-      - DATABASE_URL=${DATABASE_URL}
-      - CLIENT_URL=${CLIENT_URL}
-      - BETTER_AUTH_SECRET=${BETTER_AUTH_SECRET}
-      - BETTER_AUTH_CLIENT_URL=${BETTER_AUTH_CLIENT_URL}
-      - RESEND_API_KEY=${RESEND_API_KEY}
+    env_file:
+      - ./apps/api/.env.prod # Load environment variables from the production .env file
+    # environment:
+    #   # - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?schema=public
+    #   - PORT=5001
+    #   - NODE_ENV=${NODE_ENV}
+    #   - BASE_SERVER_URL=${BASE_SERVER_URL}
+    #   - DATABASE_URL=${DATABASE_URL}
+    #   - CLIENT_URL=${CLIENT_URL}
+    #   - BETTER_AUTH_SECRET=${BETTER_AUTH_SECRET}
+    #   - BETTER_AUTH_CLIENT_URL=${BETTER_AUTH_CLIENT_URL}
+    #   - RESEND_API_KEY=${RESEND_API_KEY}
     depends_on:
       postgres:
         condition: service_healthy # Waits for postgres to be healthy before starting api
