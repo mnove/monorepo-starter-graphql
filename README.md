@@ -59,6 +59,12 @@ pnpm docker:dev
 - **`@repo/eslint-config`**: ESLint configurations for different project types
 - **`@repo/typescript-config`**: TypeScript configurations
 
+### Setup Process
+
+1. **Clone and setup**: `pnpm setup`. This will create `.env` files based on the provided examples.
+2. **Review configurations**:
+   Set up in the .env files the necessary environment variables, such as database credentials, API keys, and authentication secrets.
+
 ## 🛠️ Development
 
 ### Available Scripts
@@ -91,12 +97,6 @@ cd packages/database && pnpm db:migrate
 # Open Prisma Studio
 cd apps/api && pnpm studio
 ```
-
-### Environment Setup
-
-1. Copy `.env.example` to `.env` in the root directory
-2. Configure your database connection and other environment variables
-3. Run database migrations
 
 ## 🏢 Architecture
 

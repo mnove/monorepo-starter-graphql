@@ -4,9 +4,6 @@ dist
 dist-ssr
 *.local
 
-
-
-
 #ignore all .env files
 .env*
 

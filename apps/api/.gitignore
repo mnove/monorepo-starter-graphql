@@ -3,4 +3,5 @@ generated
 #ignore all .env files
 .env*
 #exclude .env.example
-!.env.example
+!.env.*.example
+

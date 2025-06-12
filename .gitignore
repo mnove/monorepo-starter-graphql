@@ -12,6 +12,21 @@ dist-ssr
 !.env.example
 !.env.test.example
 !.env.*.example
+
+# App-specific environment files
+apps/*/.env
+apps/*/.env.local
+apps/*/.env.development
+apps/*/.env.development.local
+apps/*/.env.test
+apps/*/.env.test.local
+apps/*/.env.production
+apps/*/.env.production.local
+
+# Keep example files
+!**/.env.example
+!**/.env.*.example
+
 .cache
 server/dist
 public/dist
